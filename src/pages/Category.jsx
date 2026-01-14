@@ -1,7 +1,7 @@
 // src/pages/Category.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import { useCart } from "../context/CartContext";
-import "../home.css";
+import "../Home.css";
 import "../product.css";
 import { loadPublicProducts } from "../services/productService";
 import { trackPageView } from "../services/pageViewService";
