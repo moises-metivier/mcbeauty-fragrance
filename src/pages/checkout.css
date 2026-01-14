@@ -1,0 +1,148 @@
+/* ================================
+   CHECKOUT PRO - MC Beauty & Fragrance
+================================ */
+
+.checkout {
+  max-width: 520px;
+  margin: 40px auto;
+  padding: 0 16px 40px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.checkout-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+/* ---------------- BOX ---------------- */
+.checkout-box {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+
+.checkout-box label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #374151;
+}
+
+/* ---------------- INPUT ---------------- */
+.checkout-box input[type="text"],
+.checkout-box input[type="number"],
+.checkout-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+}
+
+.checkout-box input:focus {
+  outline: none;
+  border-color: #111827;
+}
+
+/* ---------------- ITEMS ---------------- */
+.checkout-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.9rem;
+}
+
+.checkout-item span {
+  color: #374151;
+}
+
+/* ---------------- TOTAL ---------------- */
+.checkout-total {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #d1d5db;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: right;
+}
+
+/* ---------------- RADIO PAYMENT ---------------- */
+.checkout-radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.checkout-radio:hover {
+  background: #f3f4f6;
+}
+
+.checkout-radio input {
+  accent-color: #111827;
+}
+
+/* ---------------- WHATSAPP BUTTON ---------------- */
+.checkout-btn-whatsapp {
+  width: 100%;
+  margin-top: 10px;
+  background: #25d366;
+  color: #ffffff;
+  padding: 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.05s ease, opacity 0.15s ease;
+}
+
+.checkout-btn-whatsapp:hover {
+  opacity: 0.95;
+}
+
+.checkout-btn-whatsapp:active {
+  transform: scale(0.98);
+}
+
+.checkout-btn-whatsapp:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------------- BACK BUTTON ---------------- */
+.checkout-back {
+  width: 100%;
+  margin-top: 10px;
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
+  color: #374151;
+  cursor: pointer;
+}
+
+.checkout-back:hover {
+  text-decoration: underline;
+}
+
+/* ---------------- EMPTY STATE ---------------- */
+.checkout p {
+  text-align: center;
+  color: #6b7280;
+  margin: 20px 0;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 480px) {
+  .checkout {
+    margin-top: 20px;
+  }
+}

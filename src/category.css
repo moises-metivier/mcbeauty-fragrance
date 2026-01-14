@@ -1,0 +1,113 @@
+/* ===== CATEGORY PAGE ===== */
+
+.category-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.category-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #a64d79;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.category-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
+  margin-top: 20px;
+}
+
+.category-empty {
+  text-align: center;
+  color: #6b7280;
+  font-size: 1rem;
+  margin-top: 40px;
+}
+
+/* Product card inside category */
+.category-product-card {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.category-product-img-wrapper {
+  width: 100%;
+  aspect-ratio: 3 / 5;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f3e0e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.category-product-img {
+  max-width: 95%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.category-product-name {
+  font-weight: bold;
+  margin-top: 10px;
+  color: #703c57;
+}
+
+.category-product-brand {
+  font-size: 0.8rem;
+  color: #8d6177;
+}
+
+.category-product-price {
+  margin-top: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #a64d79;
+}
+
+.category-btn-whatsapp {
+  margin-top: 10px;
+  padding: 8px 15px;
+  border-radius: 8px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  background: #25d366;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.category-product-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #c81e1e;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
+.category-add-btn {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: #e91e63;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.category-add-btn:hover {
+  background: #d81b60;
+}
