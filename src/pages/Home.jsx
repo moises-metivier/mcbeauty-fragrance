@@ -1,6 +1,6 @@
 // src/pages/Home.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
-import "../home.css";
+import "../Home.css";
 import "../product.css";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
