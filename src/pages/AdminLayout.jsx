@@ -1,7 +1,7 @@
 // src/pages/AdminLayout.jsx
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import "../admin.css";
+import "../Admin.css";
 import { subscribeToPresence } from "../services/presenceService";
 import { supabase } from "../lib/supabaseClient";
 import {
