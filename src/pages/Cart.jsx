@@ -2,7 +2,7 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import "../home.css";
+import "../Home.css";
 
 function moneyRD(value) {
   const n = Number(value);
