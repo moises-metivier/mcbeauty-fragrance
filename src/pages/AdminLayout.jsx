@@ -10,6 +10,7 @@ import {
   getTodayVisits,
 } from "../services/analyticsService";
 
+
 export default function AdminLayout() {
   const navigate = useNavigate();
 
@@ -21,6 +22,7 @@ async function handleLogout() {
 
   // presencia
   const [onlineUsers, setOnlineUsers] = useState(0);
+  const [onlineCount, setOnlineCount] = useState(0);
 
   // visitas
   const [totalVisits, setTotalVisits] = useState(0);
@@ -33,6 +35,11 @@ async function handleLogout() {
       setOnlineUsers(count)
     );
     return () => unsubscribe?.();
+  }, []);
+
+  useEffect(() => {
+    const unsub = subscribeToPresence(setOnlineCount);
+    return () => unsub();
   }, []);
 
   /* VISITAS */
