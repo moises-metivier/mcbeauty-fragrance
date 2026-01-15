@@ -100,9 +100,14 @@ export async function trackPageView(
       entity_type,
       entity_id,
       session_id: session_id || getSessionId(),
+      day: new Date().toISOString().slice(0, 10), // YYYY-MM-DD
+      // 👇 NO views
+      // 👇 NO upsert
     };
 
+    // ✅ UNA FILA = UNA VISTA
     const { error } = await supabase.from("page_views").insert([payload]);
+
     if (error) throw error;
   } catch (e) {
     console.warn("trackPageView error:", e?.message || e);

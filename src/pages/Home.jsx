@@ -9,6 +9,7 @@ import { trackSearch } from "../services/searchAnalyticsService";
 import { trackPageView } from "../services/analyticsService";
 //import { loadBrands, loadProductTypes } from "../services/filterService";
 import { adaptProductForCard } from "../utils/productViewAdapter";
+import { subscribeToPresence } from "../services/presenceService";
 
 
 
@@ -69,6 +70,7 @@ export default function Home() {
   const [selectedQty, setSelectedQty] = useState({});
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState("");
+  const [onlineCount, setOnlineCount] = useState(0);
 
   // 🔍 BUSCADOR + FILTRO POR MARCA 
   const [search, setSearch] = useState("");
@@ -90,7 +92,10 @@ export default function Home() {
   );
 
   
-
+  useEffect(() => {
+    const unsub = subscribeToPresence(setOnlineCount);
+    return () => unsub();
+  }, []);
   /* ============================= */
   /* HERO */
   /* ============================= */

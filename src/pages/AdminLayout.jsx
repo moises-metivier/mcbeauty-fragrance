@@ -26,6 +26,7 @@ async function handleLogout() {
   const [totalVisits, setTotalVisits] = useState(0);
   const [todayVisits, setTodayVisits] = useState(0);
 
+
   /* PRESENCIA */
   useEffect(() => {
     const unsubscribe = subscribeToPresence((count) =>
@@ -145,7 +146,7 @@ async function handleLogout() {
             Sesión: <strong>Administrador</strong>
           </div>
           <div style={{ marginTop: 6, fontSize: 12 }}>
-            👥 Online: <strong>{onlineUsers}</strong>
+            👥 Online: <strong>{onlineCount}</strong>
           </div>
           <div style={{ marginTop: 4, fontSize: 12 }}>
             👀 Visitas: <strong>{totalVisits}</strong> (hoy:{" "}
