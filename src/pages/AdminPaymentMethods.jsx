@@ -1,7 +1,7 @@
 // src/pages/AdminPaymentMethods.jsx
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
-import "../admin.css";
+import "../Admin.css";
 
 function safeInt(v, fallback = 0) {
   const n = Number(v);

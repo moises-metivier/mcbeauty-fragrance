@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { generateMarketingContent } from "../services/marketingAIService";
 
-import "../admin.css";
+import "../Admin.css";
 
 
 function safeInt(v, fb = 0) {

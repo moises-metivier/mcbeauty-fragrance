@@ -1,7 +1,7 @@
 // src/pages/AdminInsights.jsx
 import { useEffect, useState } from "react";
 import { getStoreInsights } from "../services/insightsService";
-import "../admin.css";
+import "../Admin.css";
 
 export default function AdminInsights() {
   const [loading, setLoading] = useState(true);

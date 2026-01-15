@@ -1,7 +1,7 @@
 // src/pages/AdminDesigner.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
-import "../admin.css";
+import "../Admin.css";
 
 /**
  * Mini-Canva PRO (fase 1)

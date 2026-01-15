@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
-import "../admin.css";
+import "../Admin.css";
 
 export default function AdminOrders() {
   const navigate = useNavigate();

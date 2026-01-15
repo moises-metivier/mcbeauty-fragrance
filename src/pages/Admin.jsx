@@ -1,6 +1,6 @@
 // src/pages/Admin.jsx
 import React, { useEffect, useMemo, useState } from "react";
-import "../admin.css";
+import "../Admin.css";
 import { useNavigate } from "react-router-dom";
 import { subscribeToPresence } from "../services/presenceService";
 import { supabase } from "../lib/supabaseClient";

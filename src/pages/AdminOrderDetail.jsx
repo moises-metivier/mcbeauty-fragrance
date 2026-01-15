@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
-import "../admin.css";
+import "../Admin.css";
 
 const WHATSAPP_PHONE = "18297283652"; // tu número
 

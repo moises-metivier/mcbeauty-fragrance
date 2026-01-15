@@ -1,7 +1,7 @@
 //src/pages/AdminMarketingImages.jsx
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
-import "../admin.css";
+import "../Admin.css";
 
 export default function AdminMarketingImages() {
   const [images, setImages] = useState([]);

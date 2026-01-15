@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { processNextAIJob } from "../services/aiQueueProcessor";
-import "../admin.css";
+import "../Admin.css";
 
 export default function AdminDesigns() {
   const [designs, setDesigns] = useState([]);

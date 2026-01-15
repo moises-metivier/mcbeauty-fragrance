@@ -5,7 +5,7 @@ import {
   getImagesForAI,
   generateMarketingContent,
 } from "../services/marketingAIService";
-import "../admin.css";
+import "../Admin.css";
 
 export default function AdminMarketingPosts() {
   const [posts, setPosts] = useState([]);

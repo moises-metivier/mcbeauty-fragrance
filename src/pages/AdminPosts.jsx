@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { useNavigate } from "react-router-dom";
-import "../admin.css";
+import "../Admin.css";
 
 export default function AdminPosts() {
   const [posts, setPosts] = useState([]);
