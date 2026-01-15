@@ -38,7 +38,7 @@ async function handleLogout() {
   useEffect(() => {
     (async () => {
       try {
-        await trackPageView("/admin");
+        //await trackPageView("/admin");
         const [t, d] = await Promise.all([
           getTotalVisits(),
           getTodayVisits(),

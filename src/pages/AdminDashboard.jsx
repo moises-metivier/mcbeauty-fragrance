@@ -235,7 +235,7 @@ export default function AdminDashboard() {
             getTopViewedProducts({ limit: 8 }),
           ]);
 
-          setKpis({ total, today, yesterday, week, month });
+          setKpis({ total, today, yesterday, week, month, uniqueToday, uniqueWeek, uniqueMonth });
           setTopPages(pages);
           setTopProducts(products);
         } catch (e) {
