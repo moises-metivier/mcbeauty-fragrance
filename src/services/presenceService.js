@@ -4,7 +4,7 @@ import { supabase } from "../lib/supabaseClient";
 let channel = null;
 
 function getSessionId() {
-  const KEY = "mc_session";
+  const KEY = "mc_session_id"; // ← volver al original
   let id = localStorage.getItem(KEY);
   if (!id) {
     id = crypto.randomUUID();
@@ -24,31 +24,32 @@ export function subscribeToPresence(onChange) {
   }
 
   async function fetchOnline() {
-    const since = new Date(Date.now() - 60 * 1000).toISOString(); // 1 min
-    const { count } = await supabase
+    const since = new Date(Date.now() - 60 * 1000).toISOString(); // últimos 60s
+    const { count, error } = await supabase
       .from("online_users")
       .select("*", { count: "exact", head: true })
       .gte("last_seen", since);
 
-    onChange(count || 0);
+    if (!error) onChange(count || 0);
   }
 
+  // primera marca
   markOnline();
   fetchOnline();
 
-  // refrescar cada 20s
+  // heartbeat cada 15s
   const ping = setInterval(() => {
     markOnline();
     fetchOnline();
-  }, 20000);
+  }, 15000);
 
-  // realtime
+  // 🔴 REALTIME REAL
   channel = supabase
     .channel("online-users")
     .on(
       "postgres_changes",
       { event: "*", schema: "public", table: "online_users" },
-      fetchOnline
+      () => fetchOnline()
     )
     .subscribe();
 
