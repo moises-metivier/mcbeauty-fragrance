@@ -371,9 +371,8 @@ export default function Home() {
                 )}
 
                 
-                {/* 
+
                 {p.notes && <div className="home-product-notes">{p.notes}</div>}
-                 */}
 
                 <div className="home-product-price">{moneyRD(p.price)}</div>
 

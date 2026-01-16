@@ -828,3 +828,14 @@
   background: #f9fafb;
   border-radius: 14px;
 }
+.home-pill-filter{
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 420px){
+  .home-pill-filter{
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+}
