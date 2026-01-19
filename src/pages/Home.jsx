@@ -10,6 +10,7 @@ import { trackPageView } from "../services/analyticsService";
 //import { loadBrands, loadProductTypes } from "../services/filterService";
 import { adaptProductForCard } from "../utils/productViewAdapter";
 import { subscribeToPresence } from "../services/presenceService";
+import Footer from "../components/Footer";
 
 
 
@@ -445,6 +446,18 @@ export default function Home() {
       )}
 
       {toast && <div className="toast">{toast}</div>}
+
+      <section className="why-us">
+        <h2>¿Por qué elegir MC Beauty & Fragrance?</h2>
+
+        <div className="why-grid">
+          <div className="why-item">🌸 <span>Expertos en fragancias</span></div>
+          <div className="why-item">📦 <span>Pago contra entrega</span></div>
+          <div className="why-item">🎁 <span>Ideal para regalos</span></div>
+          <div className="why-item">🛍️ <span>Productos bien empacados</span></div>
+        </div>
+      </section>
+      <Footer />
     </>
   );
 }

@@ -1,0 +1,118 @@
+.footer {
+  background: #fdecef;
+  margin-top: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: auto;
+  padding: 50px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 40px;
+}
+
+/* ===== MARCA ===== */
+.footer-brand img {
+  width: 46px;
+  height: 46px;
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-brand h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.footer-brand p {
+  margin-top: 14px;
+  font-size: 0.95rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* ===== SOCIALS ===== */
+.footer-socials {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.footer-socials a {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-socials img {
+  max-width: 28px;
+  max-height: 28px;
+  width: auto;
+  height: auto;
+}
+
+/* ===== ENLACES ===== */
+.footer-links h4,
+.footer-help h4 {
+  font-size: 1.1rem;
+  margin-bottom: 14px;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+/* ===== AYUDA ===== */
+.footer-whatsapp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #16a34a;
+  text-decoration: none;
+}
+
+.footer-whatsapp img {
+  width: 22px;
+  height: 22px;
+}
+
+.footer-location {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+/* ===== BOTTOM ===== */
+.footer-bottom {
+  border-top: 1px solid #f3c6ce;
+  text-align: center;
+  padding: 18px;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* ===== MOBILE PERFECT ===== */
+@media (max-width: 640px) {
+  .footer-socials {
+    gap: 6px;
+    margin-top: 12px;
+  }
+}

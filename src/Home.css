@@ -655,3 +655,33 @@ body {
 .home-product-price {
   color: #d63384;
 }
+
+.why-us {
+  background: #fdf2f8;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.why-us h2 {
+  margin-bottom: 30px;
+  font-size: 1.6rem;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.why-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+}
