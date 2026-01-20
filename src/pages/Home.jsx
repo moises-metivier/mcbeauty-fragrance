@@ -11,6 +11,7 @@ import { trackPageView } from "../services/analyticsService";
 import { adaptProductForCard } from "../utils/productViewAdapter";
 import { subscribeToPresence } from "../services/presenceService";
 import Footer from "../components/Footer";
+import SEO from "../components/SEO";
 
 
 
@@ -254,6 +255,12 @@ export default function Home() {
   /* ============================= */
   return (
     <>
+      <SEO
+        title="Perfumes y Cremas Originales en RD | MC Beauty & Fragrance"
+        description="Compra perfumes y cremas 100% originales en República Dominicana. Pago contra entrega, atención por WhatsApp y entregas rápidas."
+        canonical="https://mcbeautyfragrance.com/"
+      />
+
       {/* ================= HERO ================= */}
       <section className="home-hero">
         <img src={hero.image} alt="MC Beauty & Fragrance" className="home-hero-img" />

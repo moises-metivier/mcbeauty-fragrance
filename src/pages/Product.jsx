@@ -6,6 +6,7 @@ import { useCart } from "../context/CartContext";
 import { loadPublicProductById } from "../services/productService";
 import { trackPageView } from "../services/analyticsService";// ✅ NUEVO
 import "../product.css";
+import SEO from "../components/SEO";
 
 
 function moneyRD(value) {
@@ -72,6 +73,14 @@ export default function Product() {
   } = product;
 
   return (
+    <>
+      <SEO
+        title={`${name} ${brandName ? `| ${brandName}` : ""} en RD | MC Beauty & Fragrance`}
+        description={`Compra ${name}${brandName ? ` de ${brandName}` : ""} en República Dominicana. Producto original, pago contra entrega y atención directa por WhatsApp.`}
+        image={image_url || "https://mcbeautyfragrance.com/banner.png"}
+        canonical={`https://mcbeautyfragrance.com/product/${id}`}
+      />
+
     <div className="product-page">
       <div className="product-detail-card">
 
@@ -179,5 +188,6 @@ export default function Product() {
         </div>
       </div>
     </div>
-  );
+  </>
+);
 }
