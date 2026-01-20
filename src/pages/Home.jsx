@@ -452,7 +452,7 @@ export default function Home() {
 
         <div className="why-grid">
           <div className="why-item">🌸 <span>Expertos en fragancias</span></div>
-          <div className="why-item">📦 <span>Pago contra entrega</span></div>
+          <div className="why-item">📦 <span>Entrega inmediata</span></div>
           <div className="why-item">🎁 <span>Ideal para regalos</span></div>
           <div className="why-item">🛍️ <span>Productos bien empacados</span></div>
         </div>
