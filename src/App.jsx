@@ -39,6 +39,7 @@ import AdminDesigns from "./pages/AdminDesigns";
 // Post-Marketin
 import AdminMarketingPosts from "./pages/AdminMarketingPosts";
 import AdminPosts from "./pages/AdminPosts";
+import AdminHomeSections from "./pages/AdminHomeSections";
 
 export default function App() {
   return (
@@ -47,7 +48,7 @@ export default function App() {
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/category/:slug" element={<Category />} />
-        <Route path="/product/:id" element={<Product />} />
+        <Route path="/product/:slug" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
       </Route>
@@ -93,6 +94,7 @@ export default function App() {
         <Route path="designer" element={<AdminDesigner />} />
         <Route path="designs" element={<AdminDesigns />} />
         <Route path="posts" element={<AdminPosts />} />
+        <Route path="/admin/home-sections" element={<AdminHomeSections />} />
       </Route>
 
       {/* ❓ FALLBACK */}

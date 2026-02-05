@@ -7,6 +7,7 @@ import { loadPublicProducts } from "../services/productService";
 import { trackPageView } from "../services/pageViewService";
 import { adaptProductForCard } from "../utils/productViewAdapter";
 import { useParams, useNavigate } from "react-router-dom";
+import SEO from "../components/SEO";
 
 function moneyRD(value) {
   const n = Number(value);
@@ -192,8 +193,99 @@ export default function Category() {
     setToast("Producto agregado al carrito 🛒");
     setTimeout(() => setToast(""), 1500);
   }
+  const seoData = useMemo(() => {
+    if (!slug) {
+      return {
+        title: "Productos originales | MC Beauty & Fragrance",
+        description:
+          "Compra perfumes, splash y cremas corporales 100% originales en República Dominicana.",
+        canonical: "https://mcbeautyfragrance.com/",
+      };
+    }
+
+    const s = slug.toLowerCase();
+
+    const MAP = {
+      perfume: {
+        title: "Perfumes originales en República Dominicana | MC Beauty & Fragrance",
+        description:
+          "Compra perfumes originales para mujer, hombre y unisex en República Dominicana. Pago contra entrega y atención directa por WhatsApp.",
+      },
+      splash: {
+        title: "Splash y Body Mist originales en RD | MC Beauty & Fragrance",
+        description:
+          "Descubre splash y body mist 100% originales en República Dominicana. Fragancias frescas, pago contra entrega y envíos rápidos.",
+      },
+      crema: {
+        title: "Cremas corporales originales en RD | MC Beauty & Fragrance",
+        description:
+          "Compra cremas corporales y body cream originales en República Dominicana. Cuidado de la piel con marcas reconocidas.",
+      },
+      set: {
+        title: "Sets de perfumes y cremas originales en RD",
+        description:
+          "Sets de perfumes, splash y cremas originales ideales para regalar en República Dominicana.",
+      },
+      mujer: {
+        title: "Perfumes y cremas para mujer en RD | MC Beauty & Fragrance",
+        description:
+          "Perfumes, splash y cremas corporales para mujer 100% originales en República Dominicana.",
+      },
+      hombre: {
+        title: "Perfumes y fragancias para hombre en RD",
+        description:
+          "Perfumes y fragancias masculinas originales en República Dominicana. Pago contra entrega.",
+      },
+      unisex: {
+        title: "Perfumes unisex originales en RD",
+        description:
+          "Perfumes y fragancias unisex 100% originales en República Dominicana.",
+      },
+      nino: {
+        title: "Productos para niños originales en RD",
+        description:
+          "Productos y fragancias originales para niños en República Dominicana.",
+      },
+    };
+
+    const data = MAP[s] || {
+      title: `${slug} originales en RD | MC Beauty & Fragrance`,
+      description:
+        "Productos 100% originales en República Dominicana con pago contra entrega.",
+    };
+
+    return {
+      ...data,
+      canonical: `https://mcbeautyfragrance.com/category/${slug}`,
+    };
+  }, [slug]);
 
   return (
+    <>
+      <SEO
+        title={seoData.title}
+        description={seoData.description}
+        canonical={seoData.canonical}
+      />
+      <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": seoData.title,
+        "description": seoData.description,
+        "url": seoData.canonical,
+        "mainEntity": {
+          "@type": "ItemList",
+          "itemListElement": filteredByCategory.map((p, index) => ({
+            "@type": "ListItem",
+            "position": index + 1,
+            "url": `https://mcbeautyfragrance.com/product/${p.slug}`,
+            "name": p.name
+          }))
+        }
+      })}
+      </script>
+
     <section className="home-products-section">
       <h2 className="home-section-title">{title}</h2>
 
@@ -205,7 +297,7 @@ export default function Category() {
           <article
             key={p.id}
             className="home-product-card"
-            onClick={() => navigate(`/product/${p.id}`)}
+            onClick={() => navigate(`/product/${p.slug}`)}
             style={{ cursor: "pointer" }}
           >
             {/* Imagen */}
@@ -269,5 +361,6 @@ export default function Category() {
 
       {toast && <div className="toast">{toast}</div>}
     </section>
+    </>
   );
 }

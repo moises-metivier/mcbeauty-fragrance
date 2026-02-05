@@ -31,6 +31,7 @@ import {
 import { getProductMetrics } from "../services/analyticsService";
 import { getRealPeopleByProduct } from "../services/productAnalyticsService";
 import { getAromas } from "../services/aromaService";
+import { loadHomeSections } from "../services/homeSectionService";
 
 /* -------------------- HELPERS -------------------- */
 function normalizeKey(value) {
@@ -156,6 +157,7 @@ export default function AdminDashboard() {
   const [topSearches, setTopSearches] = useState([]);
   const [missingSearches, setMissingSearches] = useState([]);
   const [draftProduct, setDraftProduct] = useState(null);
+  const [homeSections, setHomeSections] = useState([]);
 
   // 🤖 IA
   const [aiLoading, setAiLoading] = useState(false);
@@ -190,6 +192,10 @@ export default function AdminDashboard() {
     stock: 1,
     active: true,
     image_url: "",
+
+
+    home_tag: "", // CLAVE PARA EL OME DINAMICO
+
     sold_count: 0,
     show_sold_count: false,
   });
@@ -360,6 +366,10 @@ export default function AdminDashboard() {
     refreshBrands();
     refreshTypes();
     refreshAromas();
+  }, []);
+
+  useEffect(() => {
+    loadHomeSections().then(setHomeSections);
   }, []);
 
   /* -------------------- MAPS (uuid -> name) -------------------- */
@@ -602,6 +612,8 @@ export default function AdminDashboard() {
 
       image_url: product.image_url || "",
 
+      home_tag: form.home_tag || null, // 👈 CLAVE
+
       sold_count: safeInt(product.sold_count ?? 0),
       show_sold_count: Boolean(product.show_sold_count),
     });
@@ -630,6 +642,7 @@ export default function AdminDashboard() {
       stock: 1,
       active: true,
       image_url: "",
+      home_tag: "",
       sold_count: 0,
       show_sold_count: false,
     });
@@ -810,6 +823,9 @@ export default function AdminDashboard() {
       active: Boolean(form.active),
 
       image_url: (form.image_url || "").trim() || null,
+
+      // HOME DINAMICO
+      home_tag: form.home_tag || null,
 
       sold_count: safeInt(form.sold_count, 0),
       show_sold_count: Boolean(form.show_sold_count),
@@ -1542,6 +1558,26 @@ export default function AdminDashboard() {
                 </button>
               </div>
             </div>
+
+            <label>Pertenece al Home (opcional)</label>
+              <select
+                value={form.home_tag || ""}
+                onChange={(e) =>
+                  setForm({ ...form, home_tag: e.target.value })
+                }
+              >
+                <option value="">— Ninguno —</option>
+
+                {homeSections.map((s) => (
+                  <option
+                    key={s.filter_value}
+                    value={s.filter_value}
+                  >
+                    {s.title}
+                  </option>
+                ))}
+              </select>
+
 
             {/* Público */}
             <div className="admin-form-group">

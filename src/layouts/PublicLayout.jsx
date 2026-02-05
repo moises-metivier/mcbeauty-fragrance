@@ -6,7 +6,9 @@ export default function PublicLayout() {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <main className="public-main">
+        <Outlet />
+      </main>
     </>
   );
 }

@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "../Home.css";
 import "../product.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { loadPublicProducts } from "../services/productService";
 import { trackSearch } from "../services/searchAnalyticsService";
@@ -12,6 +12,7 @@ import { adaptProductForCard } from "../utils/productViewAdapter";
 import { subscribeToPresence } from "../services/presenceService";
 import Footer from "../components/Footer";
 import SEO from "../components/SEO";
+import { loadHomeSections } from "../services/homeSectionService";
 
 
 
@@ -61,6 +62,17 @@ function normalizeTypeForSearch(typeName = "") {
   return t;
 }
 
+// =============================
+// HOME SECTIONS → PRODUCT FILTER
+// =============================
+function getProductsForSection(section, products) {
+  if (!section || !products) return [];
+
+  // SOLO promociones/editoriales
+  return products.filter(
+    (p) => p.home_tag === section.filter_value
+  );
+}
 /* ============================= */
 /* COMPONENT */
 /* ============================= */
@@ -87,17 +99,39 @@ export default function Home() {
   // 🧩 FILTRO POR TIPO (perfume, splash, crema, etc.)
   const [typeFilter, setTypeFilter] = useState(null);
 
+  // AGREGAR BOTONES DINAMICOS EN EL HOME
+  const [homeSections, setHomeSections] = useState([]);
+  const [homeTagFilter, setHomeTagFilter] = useState(null);
 
-  const viewProducts = useMemo(
-    () => products.map(adaptProductForCard),
-    [products]
-  );
+
+  const viewProducts = useMemo(() => {
+    return (products || []).map((p) => ({
+      ...adaptProductForCard(p),
+      home_tag: p.home_tag ?? null, // ✅ conservar
+    }));
+  }, [products]);
 
   
   useEffect(() => {
     const unsub = subscribeToPresence(setOnlineCount);
     return () => unsub();
   }, []);
+
+
+  // =============================
+  // HOME SECTIONS VISIBLES
+  // =============================
+  const visibleButtons = useMemo(() => {
+    return (homeSections || [])
+      .filter(s => s.active && s.show_button)
+      .sort((a, b) => (a.button_order ?? 0) - (b.button_order ?? 0));
+  }, [homeSections]);
+
+  const visibleSections = useMemo(() => {
+    return (homeSections || [])
+      .filter(s => s.active && s.show_section)
+      .sort((a, b) => (a.section_order ?? 0) - (b.section_order ?? 0));
+  }, [homeSections]);
   /* ============================= */
   /* HERO */
   /* ============================= */
@@ -142,6 +176,29 @@ export default function Home() {
   }, []);
 
   /* ============================= */
+  /* CARGAR SECCIONES DESDE SUPABASE  */
+  /* ============================= */
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadSections() {
+      try {
+        const data = await loadHomeSections();
+        if (!mounted) return;
+        setHomeSections(data || []);
+      } catch (e) {
+        console.error(e);
+        if (!mounted) return;
+        setHomeSections([]);
+      }
+    }
+
+    loadSections();
+    return () => (mounted = false);
+  }, []);
+
+
+  /* ============================= */
   /* QTY HANDLERS */
   /* ============================= */
   function getQty(id) {
@@ -178,7 +235,7 @@ export default function Home() {
   const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
 
   /* ============================= */
-  /* FILTRO + BUSCADOR */
+  /* FILTRO + BUSCADOR (FINAL) */
   /* ============================= */
   const filteredProducts = useMemo(() => {
     const q = String(search || "").toLowerCase().trim();
@@ -195,8 +252,7 @@ export default function Home() {
       const typeKey = normalizeTypeForSearch(rawType); // crema | splash | perfume
 
       // ---- PALABRAS CLAVE EXTRA PARA BÚSQUEDA ----
-      const typeKeywords =
-        (TYPE_SYNONYMS[typeKey] || []).join(" ");
+      const typeKeywords = (TYPE_SYNONYMS[typeKey] || []).join(" ");
 
       const name = String(p.name || "").toLowerCase();
       const notes = String(p.notes || "").toLowerCase();
@@ -214,21 +270,42 @@ export default function Home() {
         ${desc}
       `.toLowerCase();
 
-      // ---- FILTROS ----
+      /* ================= FILTROS ================= */
+
+      // 🔍 Buscador
       const matchesSearch = !q || text.includes(q);
 
-      const matchesBrand =
-        brandFilter === "all" ||
-        (brandFilter === "bath" && brand.includes("bath")) ||
-        (brandFilter === "victoria" && brand.includes("victoria"));
-
+      // 🧴 Tipo (crema / splash / perfume)
       const matchesType =
         !typeFilter || typeKey === typeFilter.toLowerCase();
 
-      return matchesSearch && matchesBrand && matchesType;
-    });
-  }, [viewProducts, search, brandFilter, typeFilter]);
+      // 🧩 HOME TAG (botones de abajo)
+      const matchesHomeTag =
+        !homeTagFilter || p.home_tag === homeTagFilter;
 
+      // 🏷️ Marca (botones de arriba)
+      // 👉 SOLO se aplica si NO hay homeTag activo
+      const matchesBrand =
+        homeTagFilter
+          ? true
+          : brandFilter === "all" ||
+            (brandFilter === "bath" && brand.includes("bath")) ||
+            (brandFilter === "victoria" && brand.includes("victoria"));
+
+      return (
+        matchesSearch &&
+        matchesType &&
+        matchesHomeTag &&
+        matchesBrand
+      );
+    });
+  }, [
+    viewProducts,
+    search,
+    brandFilter,
+    typeFilter,
+    homeTagFilter,
+  ]);
 
   /* ============================= */
   /*  TRACK SEARCH  */
@@ -256,10 +333,38 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Perfumes y Cremas Originales en RD | MC Beauty & Fragrance"
-        description="Compra perfumes y cremas 100% originales en República Dominicana. Pago contra entrega, atención por WhatsApp y entregas rápidas."
+        title="Perfumes, Splash y Cremas Originales en República Dominicana | MC Beauty & Fragrance"
+        description="Compra perfumes, splash (body mist) y cremas corporales (body cream) 100% originales en República Dominicana. Pago contra entrega, atención directa por WhatsApp y entregas rápidas en Santo Domingo y todo el país."
         canonical="https://mcbeautyfragrance.com/"
       />
+
+      <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "MC Beauty & Fragrance",
+        "url": "https://mcbeautyfragrance.com/",
+        "logo": "https://mcbeautyfragrance.com/logo.png",
+        "description":
+          "Tienda online de perfumes, body mist (splash) y cremas corporales 100% originales en República Dominicana. Pago contra entrega y atención directa por WhatsApp.",
+        "sameAs": [
+          "https://www.instagram.com/mcbeautyfragrance",
+          "https://www.facebook.com/share/1KHhnAs4g1/",
+          "https://www.tiktok.com/@mcbeautyfragrance",
+          "https://wa.me/18297283652"
+        ],
+        "areaServed": {
+          "@type": "Country",
+          "name": "República Dominicana"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+1-829-728-3652",
+          "contactType": "customer service",
+          "availableLanguage": ["Spanish"]
+        }
+      })}
+      </script>
 
       {/* ================= HERO ================= */}
       <section className="home-hero">
@@ -294,29 +399,87 @@ export default function Home() {
           }}
         />
 
+     {/* ================= RENDERIZAR BOTONES DINÁMICOS (HOME TAGS) ================= */}
+      {homeSections.length > 0 && (
         <div className="home-filters">
+          {/* Botón TODOS (siempre primero) */}
           <button
-            className={`home-pill-filter ${brandFilter === "all" ? "active" : ""}`}
-            onClick={() => setBrandFilter("all")}
+            className={`home-pill-filter ${!homeTagFilter ? "active" : ""}`}
+            onClick={() => {
+              setHomeTagFilter(null);
+
+              // 🔁 RESET
+              setBrandFilter("all");
+              setTypeFilter(null);
+            }}
           >
-            Todas
+            Todos
           </button>
 
-          <button
-            className={`home-pill-filter ${brandFilter === "bath" ? "active" : ""}`}
-            onClick={() => setBrandFilter("bath")}
-          >
-            Bath & Body Works
-          </button>
+          {visibleButtons.map((section) => (
+            <button
+              key={section.id}
+              className={`home-pill-filter ${
+                homeTagFilter === section.filter_value ? "active" : ""
+              }`}
+              onClick={() => {
+                setHomeTagFilter(section.filter_value);
 
-          <button
-            className={`home-pill-filter ${brandFilter === "victoria" ? "active" : ""}`}
-            onClick={() => setBrandFilter("victoria")}
-          >
-            Victoria’s Secret
-          </button>
+                // 🔁 RESET PROFESIONAL
+                setBrandFilter("all");
+                setTypeFilter(null);
+              }}
+            >
+              {section.title}
+            </button>
+          ))}
         </div>
+      )}
       </section>
+
+      {/* ================= SECCIONES DINÁMICAS (EDITORIAL HOME) ================= */}
+      {visibleSections.map((section) => {
+        const sectionProducts = getProductsForSection(section, viewProducts);
+
+        if (sectionProducts.length === 0) return null;
+
+        return (
+          <section key={section.id} className="home-dynamic-section">
+            <h2 className="home-section-title">{section.title}</h2>
+
+            <div className="home-products-grid">
+              {sectionProducts.slice(0, 6).map((p) => (
+                <article
+                  key={p.id}
+                  className="home-product-card"
+                  onClick={() => navigate(`/product/${p.slug}`)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div className="home-product-img-wrapper">
+                    <img
+                      src={p.image_url || "/placeholder.png"}
+                      alt={p.name}
+                      className="home-product-img"
+                    />
+                  </div>
+
+                  <h3 className="home-product-name">{p.name}</h3>
+
+                  <div className="home-product-meta">
+                    <span className="brand">{p.brandName}</span>
+                    <span className="dot">·</span>
+                    <span className="type">{p.typeName}</span>
+                  </div>
+
+                  <div className="home-product-price">
+                    {moneyRD(p.price)}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        );
+      })}
 
       {/* ================= CATALOG ================= */}
       <section ref={catalogRef} className="home-products-section">
@@ -326,11 +489,6 @@ export default function Home() {
         {!loading && filteredProducts.length === 0 && (
           <p>No hay productos que coincidan</p>
         )}
-
-        {/* ================= FILTRO POR TIPO (DINÁMICO) ================= */}
-        
-
-        {/* ================= FILTRO POR MARCA (YA EXISTENTE) ================= */}
         
 
         {/* ================= GRID ================= */}
@@ -343,7 +501,7 @@ export default function Home() {
               <article
                 key={p.id}
                 className="home-product-card"
-                onClick={() => navigate(`/product/${p.id}`)}
+                onClick={() => navigate(`/product/${p.slug}`)}
                 style={{ cursor: "pointer" }}
               >
                 <div className="home-product-img-wrapper">
@@ -464,6 +622,69 @@ export default function Home() {
           <div className="why-item">🛍️ <span>Productos bien empacados</span></div>
         </div>
       </section>
+      {/* ================= SEO CONTENT (HOME) ================= */}
+      <section className="home-seo-wrapper">
+        <div className="home-seo-content">
+          <h2>Perfumes, splash y cremas corporales originales en República Dominicana</h2>
+
+          <p>
+            En <strong>MC Beauty & Fragrance</strong> ofrecemos una selección de perfumes,
+            splash (body mist) y cremas corporales (body cream) 100% originales en
+            República Dominicana. Trabajamos con marcas reconocidas como Bath & Body Works
+            y Victoria’s Secret, ideales para uso diario y ocasiones especiales.
+          </p>
+
+          <p>
+            Realiza tu compra de forma fácil y segura con pago contra entrega y atención
+            directa por WhatsApp. Entregamos en Santo Domingo y otras zonas del país.
+          </p>
+
+          <h3>¿Por qué comprar perfumes y cremas en MC Beauty & Fragrance?</h3>
+
+          <ul>
+            <li>✔ Productos 100% originales garantizados</li>
+            <li>✔ Pago contra entrega en República Dominicana</li>
+            <li>✔ Atención rápida y personalizada por WhatsApp</li>
+            <li>✔ Entrega segura, rápida y confiable</li>
+          </ul>
+        </div>
+      </section>
+      
+      {/* ================= INTERNAL LINKS (SEO) ================= */}
+      <section className="home-links-wrapper">
+        <div className="home-internal-links">
+          <h3>Explora nuestros productos más buscados</h3>
+
+          <ul>
+            <li>
+              <Link to="/" title="Perfumes originales en República Dominicana">
+                Perfumes originales en República Dominicana
+              </Link>
+            </li>
+            <li>
+              <Link to="/" title="Body mist (Splash) originales en RD">
+                Body mist (splash) originales
+              </Link>
+            </li>
+            <li>
+              <Link to="/" title="Body cream y body lotion (Cremas corporales) originales">
+                 Body cream (Cremas corporales)
+              </Link>
+            </li>
+            <li>
+              <Link to="/" title="Productos Bath & Body Works en República Dominicana">
+                Bath & Body Works en República Dominicana
+              </Link>
+            </li>
+            <li>
+              <Link to="/" title="Victoria’s Secret perfumes y cremas">
+                Victoria’s Secret perfumes y cremas
+              </Link>
+            </li>
+          </ul>
+        </div>    
+      </section>
+
       <Footer />
     </>
   );

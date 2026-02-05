@@ -335,7 +335,7 @@ export default function Home() {
               <article
                 key={p.id}
                 className="home-product-card"
-                onClick={() => navigate(`/product/${p.id}`)}
+                onClick={() => navigate(`/product/${p.slug}`)}
                 style={{ cursor: "pointer" }}
               >
                 <div className="home-product-img-wrapper">

@@ -16,19 +16,6 @@ body {
   padding: 20px;
 }
 
-/* NAVBAR */
-.navbar {
-  background: white;
-  padding: 15px 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
 .nav-links {
   display: flex;
   gap: 20px;
@@ -130,4 +117,9 @@ body.theme-romantico {
 body.theme-elegante {
   background: #111;
   color: white;
+}
+
+/* ===== FIX GLOBAL PARA NAVBAR STICKY ===== */
+.public-main {
+  padding-top: 65px; /* ajusta si el navbar cambia de alto */
 }

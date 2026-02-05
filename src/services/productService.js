@@ -46,6 +46,10 @@ function normalizeProductRow(p) {
 
   return {
     id: p.id,
+
+    // ✅ CLAVE para navegación /product/:slug
+    slug: p.slug ?? null,
+
     name: p.name ?? "",
     description: p.description ?? null,
     notes: p.notes ?? null,
@@ -63,6 +67,8 @@ function normalizeProductRow(p) {
     show_sold_count: Boolean(p.show_sold_count),
 
     created_at: p.created_at ?? null,
+
+    home_tag: p.home_tag ?? null,
 
     // FK reales
     brand_id: p.brand_id ?? null,
@@ -96,6 +102,7 @@ export async function loadPublicProducts({
     .select(
       `
       id,
+      slug,         
       name,
       description,
       notes,
@@ -107,6 +114,7 @@ export async function loadPublicProducts({
       sold_count,
       show_sold_count,
       created_at,
+      home_tag,
 
       brand_id,
       type_id,
@@ -184,6 +192,7 @@ export async function loadPublicProductById(id) {
     .select(
       `
       id,
+      slug,         
       name,
       description,
       notes,
@@ -195,6 +204,7 @@ export async function loadPublicProductById(id) {
       sold_count,
       show_sold_count,
       created_at,
+      home_tag,
 
       brand_id,
       type_id,
@@ -229,6 +239,7 @@ export async function loadProductsForAdmin({ limit = 500, offset = 0 } = {}) {
     .select(
       `
       id,
+      slug,         
       name,
       description,
       notes,
@@ -240,6 +251,7 @@ export async function loadProductsForAdmin({ limit = 500, offset = 0 } = {}) {
       sold_count,
       show_sold_count,
       created_at,
+      home_tag,
 
       brand_id,
       type_id,
@@ -368,4 +380,53 @@ export async function resolveOrCreateType(name) {
 
   if (error) throw error;
   return data.id;
+}
+
+// ==============================
+// CARGAR 1 PRODUCTO POR SLUG (SEO)
+// ==============================
+export async function loadPublicProductBySlug(slug) {
+  if (!slug) return null;
+
+  const { data, error } = await supabase
+    .from("products")
+    .select(
+      `
+      id,
+      slug,
+      name,
+      description,
+      notes,
+      audience,
+      price,
+      stock,
+      active,
+      image_url,
+      sold_count,
+      show_sold_count,
+      created_at,
+      home_tag,
+
+      brand_id,
+      type_id,
+      aroma_id,
+
+      brands:brand_id ( name ),
+      product_types:type_id ( name ),
+      aromas:aroma_id ( name )
+      `
+    )
+    .eq("slug", slug)
+    .eq("active", true)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error cargando producto por slug:", error);
+    throw error;
+  }
+
+  if (!data) return null;
+
+  // ✅ 100% consistente con el resto del sistema
+  return normalizeProductRow(data);
 }

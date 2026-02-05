@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mcbeautyfragrance.com/sitemap.xml
+Sitemap: https://jvbzjqtvdenwgfdbobcz.supabase.co/functions/v1/sitemap
