@@ -3,31 +3,35 @@
 
   <url>
     <loc>https://mcbeautyfragrance.com/</loc>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- Categorías principales -->
   <url>
     <loc>https://mcbeautyfragrance.com/category/perfume</loc>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://mcbeautyfragrance.com/category/splash</loc>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://mcbeautyfragrance.com/category/crema</loc>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://mcbeautyfragrance.com/category/set</loc>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
