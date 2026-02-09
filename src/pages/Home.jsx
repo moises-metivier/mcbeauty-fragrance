@@ -376,6 +376,7 @@ export default function Home() {
 
           <button
             className="home-hero-btn"
+            aria-label="Ver catálogo de productos"
             onClick={() => catalogRef.current?.scrollIntoView({ behavior: "smooth" })}
           >
             🟢 {hero.cta}
@@ -385,9 +386,15 @@ export default function Home() {
 
       {/* ================= SEARCH & FILTERS ================= */}
       <section className="home-products-section">
+        <label htmlFor="search-input" className="sr-only">
+          Buscar productos
+        </label>
+
         <input
+          id="search-input"
           type="text"
           placeholder="Buscar perfumes, aromas, marcas…"
+          aria-label="Buscar productos en el catálogo"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{
@@ -460,6 +467,8 @@ export default function Home() {
                       src={p.image_url || "/placeholder.png"}
                       alt={p.name}
                       className="home-product-img"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
 
@@ -509,6 +518,8 @@ export default function Home() {
                     src={p.image_url || "/placeholder.png"}
                     alt={p.name}
                     className="home-product-img"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
 
@@ -558,8 +569,9 @@ export default function Home() {
 
                     <button
                       className="btn-add"
+                      aria-label={`Añadir ${p.name} al carrito`}
                       onClick={(e) => {
-                        e.stopPropagation();   // 👈 CLAVE
+                        e.stopPropagation();
                         handleAdd(p);
                       }}
                     >
