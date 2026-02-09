@@ -19,14 +19,46 @@ export default function Footer() {
           </p>
 
           <div className="footer-socials">
-            <a href="https://www.facebook.com/share/1KHhnAs4g1/" target="_blank">
-              <img src="/facebook.svg" alt="Facebook" />
+            <a
+              href="https://www.facebook.com/share/1KHhnAs4g1/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/facebook.svg"
+                alt="Facebook"
+                width="24"
+                height="24"
+                loading="lazy"
+              />
             </a>
-            <a href="https://www.instagram.com/mcbeautyfragrance" target="_blank">
-              <img src="/instagram.svg" alt="Instagram" />
+
+            <a
+              href="https://www.instagram.com/mcbeautyfragrance"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/instagram.svg"
+                alt="Instagram"
+                width="24"
+                height="24"
+                loading="lazy"
+              />
             </a>
-            <a href="https://www.tiktok.com/@mcbeautyfragrance" target="_blank">
-              <img src="/tiktok.svg" alt="TikTok" />
+
+            <a
+              href="https://www.tiktok.com/@mcbeautyfragrance"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/tiktok.svg"
+                alt="TikTok"
+                width="24"
+                height="24"
+                loading="lazy"
+              />
             </a>
           </div>
         </div>
