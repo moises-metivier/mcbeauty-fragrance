@@ -113,8 +113,12 @@ export default function Home() {
 
   
   useEffect(() => {
-    const unsub = subscribeToPresence(setOnlineCount);
-    return () => unsub();
+    const id = setTimeout(() => {
+      const unsub = subscribeToPresence(setOnlineCount);
+      return () => unsub();
+    }, 1500);
+
+    return () => clearTimeout(id);
   }, []);
 
 
@@ -322,9 +326,24 @@ export default function Home() {
   }, [search, filteredProducts.length]);
 
   useEffect(() => {
-    trackPageView("/", null, null);
-  }, []);
+    let fired = false;
 
+    const run = () => {
+      if (fired) return;
+      fired = true;
+      trackPageView("/", null, null);
+    };
+
+    if (document.readyState === "complete") {
+      run();
+    } else {
+      window.addEventListener("load", run, { once: true });
+    }
+
+    return () => {
+      window.removeEventListener("load", run);
+    };
+  }, []);
 
 
   /* ============================= */
