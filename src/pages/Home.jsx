@@ -318,6 +318,8 @@ export default function Home() {
     if (searchTimeout.current) clearTimeout(searchTimeout.current);
 
     const q = search.trim();
+    if (!q) return; // 👈 evita trackear búsquedas vacías
+
     searchTimeout.current = setTimeout(() => {
       trackSearch(q, filteredProducts.length);
     }, 700);
@@ -334,17 +336,12 @@ export default function Home() {
       trackPageView("/", null, null);
     };
 
-    if (document.readyState === "complete") {
-      run();
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(run, { timeout: 2000 });
     } else {
-      window.addEventListener("load", run, { once: true });
+      setTimeout(run, 1500);
     }
-
-    return () => {
-      window.removeEventListener("load", run);
-    };
   }, []);
-
 
   /* ============================= */
   /* UI */
