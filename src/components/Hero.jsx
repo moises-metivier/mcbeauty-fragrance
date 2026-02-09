@@ -41,10 +41,15 @@ function Hero() {
 
       {/* Imagen */}
       <img
-        src="https://images.unsplash.com/photo-1585386959984-a41552231693?auto=format&fit=crop&w=500&q=60"
-        alt="Fragancias"
+        src="https://images.unsplash.com/photo-1585386959984-a41552231693?auto=format&fit=crop&w=900&q=80"
+        alt="Fragancias y perfumes de MC Beauty & Fragrance"
+        width="900"
+        height="600"
+        loading="eager"
+        fetchpriority="high"
         style={{
           width: "45%",
+          height: "auto",
           borderRadius: "14px",
           boxShadow: "0 3px 10px rgba(0,0,0,0.15)",
         }}
