@@ -338,37 +338,46 @@ export default function Home() {
         canonical="https://mcbeautyfragrance.com/"
       />
 
-      <script type="application/ld+json">
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "MC Beauty & Fragrance",
-        "url": "https://mcbeautyfragrance.com/",
-        "logo": "https://mcbeautyfragrance.com/logo.png",
-        "description":
-          "Tienda online de perfumes, body mist (splash) y cremas corporales 100% originales en República Dominicana. Pago contra entrega y atención directa por WhatsApp.",
-        "sameAs": [
-          "https://www.instagram.com/mcbeautyfragrance",
-          "https://www.facebook.com/share/1KHhnAs4g1/",
-          "https://www.tiktok.com/@mcbeautyfragrance",
-          "https://wa.me/18297283652"
-        ],
-        "areaServed": {
-          "@type": "Country",
-          "name": "República Dominicana"
-        },
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "telephone": "+1-829-728-3652",
-          "contactType": "customer service",
-          "availableLanguage": ["Spanish"]
-        }
-      })}
-      </script>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "MC Beauty & Fragrance",
+            "url": "https://mcbeautyfragrance.com/",
+            "logo": "https://mcbeautyfragrance.com/logo.png",
+            "description":
+              "Tienda online de perfumes, body mist (splash) y cremas corporales 100% originales en República Dominicana. Pago contra entrega y atención directa por WhatsApp.",
+            "sameAs": [
+              "https://www.instagram.com/mcbeautyfragrance",
+              "https://www.facebook.com/share/1KHhnAs4g1/",
+              "https://www.tiktok.com/@mcbeautyfragrance",
+              "https://wa.me/18297283652"
+            ],
+            "areaServed": {
+              "@type": "Country",
+              "name": "República Dominicana"
+            },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+1-829-728-3652",
+              "contactType": "customer service",
+              "availableLanguage": ["Spanish"]
+            }
+          })
+        }}
+      />
 
       {/* ================= HERO ================= */}
       <section className="home-hero">
-        <img src={hero.image} alt="MC Beauty & Fragrance" className="home-hero-img" />
+        <img
+          src={hero.image}
+          alt="MC Beauty & Fragrance"
+          className="home-hero-img"
+          loading="eager"
+          fetchpriority="high"
+        />
 
         <div className="home-hero-cta">
           <h1>{hero.title}</h1>
@@ -562,6 +571,7 @@ export default function Home() {
                       type="number"
                       min="1"
                       max="10"
+                      inputMode="numeric"
                       value={getQty(p.id)}
                       onClick={(e) => e.stopPropagation()}
                       onChange={(e) => changeQty(p.id, e.target.value)}
