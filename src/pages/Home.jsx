@@ -589,6 +589,7 @@ export default function Home() {
                       max="10"
                       inputMode="numeric"
                       value={getQty(p.id)}
+                      aria-label="Cantidad del producto"
                       onClick={(e) => e.stopPropagation()}
                       onChange={(e) => changeQty(p.id, e.target.value)}
                     />
