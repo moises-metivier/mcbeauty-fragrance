@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 export default function SEO({
   title = "Perfumes y cremas originales en República Dominicana | MC Beauty & Fragrance",
   description = "Compra perfumes, splash (body mist) y cremas corporales (body cream) 100% originales en República Dominicana. Pago contra entrega y atención directa por WhatsApp.",
-  image = "https://mcbeautyfragrance.com/banner.png",
+  image = "https://mcbeautyfragrance.com/banner.webp",
   canonical = "https://mcbeautyfragrance.com/",
   type = "website",
 }) {

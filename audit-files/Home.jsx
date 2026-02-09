@@ -103,7 +103,7 @@ export default function Home() {
     () => ({
       title: "Compra fácil por WhatsApp",
       subtitle: "Atención personalizada · Pago contra entrega · Entregas rápidas",
-      image: "/banner.png",
+      image: "/banner.webp",
       cta: "Ver catálogo",
     }),
     []

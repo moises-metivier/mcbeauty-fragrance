@@ -82,7 +82,7 @@ export default function Product() {
       <SEO
         title={`${name}${typeName ? ` | ${typeName}` : ""} ${brandName ? `| ${brandName}` : ""} en República Dominicana | MC Beauty & Fragrance`}
         description={`Compra ${name}${typeName ? ` (${typeName})` : ""} de ${brandName || "marca original"} en República Dominicana. Aroma ${aromaName || "exclusivo"}, ideal para ${audience || "uso diario"}. Producto 100% original, pago contra entrega y envío rápido.`}
-        image={image_url || "https://mcbeautyfragrance.com/banner.png"}
+        image={image_url || "https://mcbeautyfragrance.com/banner.webp"}
         canonical={`https://mcbeautyfragrance.com/product/${slug}`}
       />
       <script type="application/ld+json">
@@ -92,7 +92,7 @@ export default function Product() {
         "name": name,
         "image": image_url
           ? [image_url]
-          : ["https://mcbeautyfragrance.com/banner.png"],
+          : ["https://mcbeautyfragrance.com/banner.webp"],
         "description": description || notes || name,
         "sku": id,
         "brand": {
