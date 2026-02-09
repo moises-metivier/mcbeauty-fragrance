@@ -1,8 +1,19 @@
 {
   "rewrites": [
+    { "source": "/sitemap.xml", "destination": "https://jvbzjqtvdenwgfdbobcz.supabase.co/functions/v1/sitemap" }
+  ],
+  "headers": [
     {
-      "source": "/sitemap.xml",
-      "destination": "https://jvbzjqtvdenwgfdbobcz.supabase.co/functions/v1/sitemap"
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(png|jpg|jpeg|webp|svg|gif|ico)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
     }
   ]
 }
