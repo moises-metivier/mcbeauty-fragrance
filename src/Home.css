@@ -240,6 +240,7 @@ body {
   max-width: 600px;
   margin: 30px auto;
   padding: 16px;
+  min-height: 180px;
   background: #ffffff;
   border-radius: 14px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.06);
@@ -663,6 +664,7 @@ body {
   background: #fdf2f8;
   padding: 50px 20px;
   text-align: center;
+  min-height: 220pxS;
 }
 
 .why-us h2 {
