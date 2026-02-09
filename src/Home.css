@@ -664,7 +664,7 @@ body {
   background: #fdf2f8;
   padding: 50px 20px;
   text-align: center;
-  min-height: 220pxS;
+  min-height: 220px;
 }
 
 .why-us h2 {
@@ -795,4 +795,17 @@ body {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-product-card,
+  .home-hero-cta {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+.home-product-card {
+  position: relative;
+  min-height: 380px;
 }
