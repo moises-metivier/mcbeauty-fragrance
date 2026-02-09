@@ -393,6 +393,8 @@ export default function Home() {
           className="home-hero-img"
           loading="eager"
           fetchpriority="high"
+          width="1200"
+          height="800"
         />
 
         <div className="home-hero-cta">
@@ -632,6 +634,7 @@ export default function Home() {
                 type="number"
                 min="1"
                 value={item.qty}
+                aria-label={`Cantidad de ${item.name}`}
                 onChange={(e) => updateQty(item.id, e.target.value)}
               />
 
