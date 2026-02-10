@@ -701,8 +701,8 @@ body {
   padding: 50px 20px;
   text-align: center;
 
-  /* 🔒 CLS SAFE */
-  height: 320px;              /* valor fijo */
+  /* 🔒 CLS SAFE (correcto) */
+  min-height: 320px;          /* reserva espacio sin romper responsive */
   box-sizing: border-box;
 }
 
@@ -716,7 +716,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 24px;
   max-width: 1000px;
-  margin: auto;
+  margin: 0 auto;
   align-content: center;
 }
 
@@ -726,7 +726,7 @@ body {
   justify-content: center;
   gap: 10px;
   font-size: 0.95rem;
-  background: white;
+  background: #ffffff;
   padding: 16px;
   border-radius: 12px;
 }
