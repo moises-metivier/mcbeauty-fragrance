@@ -701,6 +701,7 @@ body {
   /* 🔒 CLS SAFE (correcto) */
   min-height: 320px;          /* reserva espacio sin romper responsive */
   box-sizing: border-box;
+  contain: layout paint;
 }
 
 .why-us h2 {
@@ -726,6 +727,7 @@ body {
   background: #ffffff;
   padding: 16px;
   border-radius: 12px;
+  min-height: 44ps;
 }
 
 .home-seo-content {

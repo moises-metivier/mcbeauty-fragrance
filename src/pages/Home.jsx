@@ -493,6 +493,8 @@ export default function Home() {
                       className="home-product-img"
                       loading="lazy"
                       decoding="async"
+                      width="300"
+                      height="375"
                     />
                   </div>
 
@@ -544,6 +546,8 @@ export default function Home() {
                     className="home-product-img"
                     loading="lazy"
                     decoding="async"
+                    width="300"
+                    height="375"
                   />
                 </div>
 
