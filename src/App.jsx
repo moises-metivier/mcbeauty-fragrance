@@ -1,104 +1,108 @@
 // src/App.jsx
 import { Routes, Route, Navigate } from "react-router-dom";
+import { Suspense, lazy } from "react";
 
 // Layouts
 import PublicLayout from "./layouts/PublicLayout";
 
-// Detalle
-import Product from "./pages/Product";
-
-// Public
-import Home from "./pages/Home";
-import Category from "./pages/Category";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
-
-// Admin
-import AdminLayout from "./pages/AdminLayout";
-import AdminDashboard from "./pages/AdminDashboard";
-import AdminOrders from "./pages/AdminOrders";
-import AdminOrderDetail from "./pages/AdminOrderDetail";
-import AdminPaymentMethods from "./pages/AdminPaymentMethods";
-import AdminCampaigns from "./pages/AdminCampaigns";
-import AdminInsights from "./pages/AdminInsights";
-
-// Auth
-import AdminLogin from "./pages/AdminLogin";
+// Auth / Guards
 import RequireAuth from "./components/RequireAuth";
 
+/* ============================= */
+/* LAZY LOADING (PAGES)          */
+/* ============================= */
+
+// Public
+const Home = lazy(() => import("./pages/Home"));
+const Category = lazy(() => import("./pages/Category"));
+const Product = lazy(() => import("./pages/Product"));
+const Cart = lazy(() => import("./pages/Cart"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+
+// Admin Core
+const AdminLayout = lazy(() => import("./pages/AdminLayout"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const AdminOrders = lazy(() => import("./pages/AdminOrders"));
+const AdminOrderDetail = lazy(() => import("./pages/AdminOrderDetail"));
+const AdminPaymentMethods = lazy(() => import("./pages/AdminPaymentMethods"));
+const AdminCampaigns = lazy(() => import("./pages/AdminCampaigns"));
+const AdminInsights = lazy(() => import("./pages/AdminInsights"));
+
+// Auth
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+
 // 2FA
-import Enable2FA from "./pages/Enable2FA";
-import Verify2FA from "./pages/Verify2FA";
+const Enable2FA = lazy(() => import("./pages/Enable2FA"));
+const Verify2FA = lazy(() => import("./pages/Verify2FA"));
 
-// Mini-Canva-Publicidad
-import AdminMarketingImages from "./pages/AdminMarketingImages";
-import AdminDesigner from "./pages/AdminDesigner";
-import AdminDesigns from "./pages/AdminDesigns";
-
-
-// Post-Marketin
-import AdminMarketingPosts from "./pages/AdminMarketingPosts";
-import AdminPosts from "./pages/AdminPosts";
-import AdminHomeSections from "./pages/AdminHomeSections";
+// Marketing / Designer
+const AdminMarketingImages = lazy(() => import("./pages/AdminMarketingImages"));
+const AdminMarketingPosts = lazy(() => import("./pages/AdminMarketingPosts"));
+const AdminDesigner = lazy(() => import("./pages/AdminDesigner"));
+const AdminDesigns = lazy(() => import("./pages/AdminDesigns"));
+const AdminPosts = lazy(() => import("./pages/AdminPosts"));
+const AdminHomeSections = lazy(() => import("./pages/AdminHomeSections"));
 
 export default function App() {
   return (
-    <Routes>
-      {/* 🌍 PUBLIC SITE */}
-      <Route element={<PublicLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/category/:slug" element={<Category />} />
-        <Route path="/product/:slug" element={<Product />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-      </Route>
+    <Suspense fallback={<div style={{ padding: 40 }}>Cargando…</div>}>
+      <Routes>
+        {/* 🌍 PUBLIC SITE */}
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/category/:slug" element={<Category />} />
+          <Route path="/product/:slug" element={<Product />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+        </Route>
 
-      {/* 🔐 ADMIN LOGIN */}
-      <Route path="/admin/login" element={<AdminLogin />} />
+        {/* 🔐 ADMIN LOGIN */}
+        <Route path="/admin/login" element={<AdminLogin />} />
 
-      {/* 🔑 2FA */}
-      <Route
-        path="/admin/2fa"
-        element={
-          <RequireAuth>
-            <Enable2FA />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/admin/2fa/verify"
-        element={
-          <RequireAuth>
-            <Verify2FA />
-          </RequireAuth>
-        }
-      />
+        {/* 🔑 2FA */}
+        <Route
+          path="/admin/2fa"
+          element={
+            <RequireAuth>
+              <Enable2FA />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin/2fa/verify"
+          element={
+            <RequireAuth>
+              <Verify2FA />
+            </RequireAuth>
+          }
+        />
 
-      {/* 🧱 ADMIN PANEL */}
-      <Route
-        path="/admin"
-        element={
-          <RequireAuth>
-            <AdminLayout />
-          </RequireAuth>
-        }
-      >
-        <Route index element={<AdminDashboard />} />
-        <Route path="orders" element={<AdminOrders />} />
-        <Route path="orders/:id" element={<AdminOrderDetail />} />
-        <Route path="payment-methods" element={<AdminPaymentMethods />} />
-        <Route path="campaigns" element={<AdminCampaigns />} />
-        <Route path="insights" element={<AdminInsights />} />
-        <Route path="marketing-images" element={<AdminMarketingImages />} />
-        <Route path="marketing-posts" element={<AdminMarketingPosts />} />
-        <Route path="designer" element={<AdminDesigner />} />
-        <Route path="designs" element={<AdminDesigns />} />
-        <Route path="posts" element={<AdminPosts />} />
-        <Route path="/admin/home-sections" element={<AdminHomeSections />} />
-      </Route>
+        {/* 🧱 ADMIN PANEL */}
+        <Route
+          path="/admin"
+          element={
+            <RequireAuth>
+              <AdminLayout />
+            </RequireAuth>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="orders/:id" element={<AdminOrderDetail />} />
+          <Route path="payment-methods" element={<AdminPaymentMethods />} />
+          <Route path="campaigns" element={<AdminCampaigns />} />
+          <Route path="insights" element={<AdminInsights />} />
+          <Route path="marketing-images" element={<AdminMarketingImages />} />
+          <Route path="marketing-posts" element={<AdminMarketingPosts />} />
+          <Route path="designer" element={<AdminDesigner />} />
+          <Route path="designs" element={<AdminDesigns />} />
+          <Route path="posts" element={<AdminPosts />} />
+          <Route path="home-sections" element={<AdminHomeSections />} />
+        </Route>
 
-      {/* ❓ FALLBACK */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        {/* ❓ FALLBACK */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Suspense>
   );
 }
