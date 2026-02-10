@@ -102,15 +102,20 @@ body {
   max-width: 1000px;
   margin: 0 auto;
   padding: 22px 16px;
-  margin-top: 48px;
 
-  /* 🔒 CLS SAFE */
-  min-height: 600px;
+  
 }
 
-.home-section-title {
-  margin-bottom: 16px;
-  font-size: 1.5rem;
+.home-products-section {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.home-filters-section {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px 16px 8px;
 }
 
 /* ---------------- FILTROS ---------------- */
@@ -214,10 +219,27 @@ body {
 }
 
 .badge-out {
-  margin-top: 6px;
-  font-size: 0.85rem;
-  color: #dc2626;
+  width: 100%;
+  padding: 9px;
+  border-radius: 999px; /* igual que Añadir */
+  border: 1px solid #e05252;
+
+  background: linear-gradient(
+    180deg,
+    #f87171,
+    #dc2626
+  );
+
+  color: #fff;
   font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+
+  text-align: center;
+  cursor: not-allowed;
+  opacity: 0.9;
+
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.25);
 }
 
 /* ---------------- INPUTS ---------------- */
@@ -389,7 +411,9 @@ body {
 .home-product-img-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;       /* ⬅️ reserva espacio (clave para CLS) */
+  aspect-ratio: 4 / 5;       /* ⬅️ reserva espacio (clave para CLS) */
+  max-height: 200px;
+  margin-bottom: 6px;
   border-radius: 12px;
   background: #ffffff;       /* fondo limpio */
   overflow: hidden;
@@ -399,8 +423,8 @@ body {
 }
 
 .home-product-img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;       /* mantiene producto elegante */
   display: block;
 }
@@ -821,10 +845,6 @@ body {
   }
 }
 
-.home-product-card {
-  position: relative;
-  min-height: 380px;
-}
 
 @media (max-width: 600px) {
   .why-us {

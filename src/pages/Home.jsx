@@ -412,7 +412,7 @@ export default function Home() {
       </section>
 
       {/* ================= SEARCH & FILTERS ================= */}
-      <section className="home-products-section">
+      <section className="home-filters-section">
         <label htmlFor="search-input" className="sr-only">
           Buscar productos
         </label>
@@ -433,52 +433,50 @@ export default function Home() {
           }}
         />
 
-     {/* ================= RENDERIZAR BOTONES DINÁMICOS (HOME TAGS) ================= */}
-      {homeSections.length > 0 && (
-        <div className="home-filters">
-          {/* Botón TODOS (siempre primero) */}
-          <button
-            className={`home-pill-filter ${!homeTagFilter ? "active" : ""}`}
-            onClick={() => {
-              setHomeTagFilter(null);
-
-              // 🔁 RESET
-              setBrandFilter("all");
-              setTypeFilter(null);
-            }}
-          >
-            Todos
-          </button>
-
-          {visibleButtons.map((section) => (
+        {/* BOTONES SOLO SI EXISTEN */}
+        {visibleButtons.length > 0 && (
+          <div className="home-filters">
             <button
-              key={section.id}
-              className={`home-pill-filter ${
-                homeTagFilter === section.filter_value ? "active" : ""
-              }`}
+              className={`home-pill-filter ${!homeTagFilter ? "active" : ""}`}
               onClick={() => {
-                setHomeTagFilter(section.filter_value);
-
-                // 🔁 RESET PROFESIONAL
+                setHomeTagFilter(null);
                 setBrandFilter("all");
                 setTypeFilter(null);
               }}
             >
-              {section.title}
+              Todos
             </button>
-          ))}
-        </div>
-      )}
+
+            {visibleButtons.map((section) => (
+              <button
+                key={section.id}
+                className={`home-pill-filter ${
+                  homeTagFilter === section.filter_value ? "active" : ""
+                }`}
+                onClick={() => {
+                  setHomeTagFilter(section.filter_value);
+                  setBrandFilter("all");
+                  setTypeFilter(null);
+                }}
+              >
+                {section.title}
+              </button>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ================= SECCIONES DINÁMICAS (EDITORIAL HOME) ================= */}
-      {visibleSections.map((section) => {
-        const sectionProducts = getProductsForSection(section, viewProducts);
+      {visibleSections
+        .filter(section => {
+          const products = getProductsForSection(section, viewProducts);
+          return products.length > 0;
+        })
+        .map(section => {
+          const sectionProducts = getProductsForSection(section, viewProducts);
 
-        if (sectionProducts.length === 0) return null;
-
-        return (
-          <section key={section.id} className="home-dynamic-section">
+          return (
+            <section key={section.id} className="home-dynamic-section">
             <h2 className="home-section-title">{section.title}</h2>
 
             <div className="home-products-grid">
@@ -487,7 +485,6 @@ export default function Home() {
                   key={p.id}
                   className="home-product-card"
                   onClick={() => navigate(`/product/${p.slug}`)}
-                  style={{ cursor: "pointer" }}
                 >
                   <div className="home-product-img-wrapper">
                     <img
