@@ -145,6 +145,13 @@ async function handleLogout() {
           >
             <span>🧠 Estrategia</span>
           </button>
+
+          <button
+            className="admin-nav-btn"
+            onClick={() => navigate("/admin/home-sections")}
+          >
+            🧩 Home Sections
+          </button>
         </div>
 
         {/* INFO DE SESIÓN (NO SE VA AL FONDO) */}
