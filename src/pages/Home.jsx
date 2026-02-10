@@ -7,7 +7,6 @@ import { useCart } from "../context/CartContext";
 import { loadPublicProducts } from "../services/productService";
 import { trackSearch } from "../services/searchAnalyticsService";
 import { trackPageView } from "../services/analyticsService";
-//import { loadBrands, loadProductTypes } from "../services/filterService";
 import { adaptProductForCard } from "../utils/productViewAdapter";
 import { subscribeToPresence } from "../services/presenceService";
 import Footer from "../components/Footer";
