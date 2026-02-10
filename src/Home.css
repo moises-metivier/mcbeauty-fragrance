@@ -106,11 +106,6 @@ body {
   
 }
 
-.home-products-section {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 24px 16px;
-}
 
 .home-filters-section {
   max-width: 1000px;
@@ -154,19 +149,17 @@ body {
 
 /* ---------------- CARD ---------------- */
 .home-product-card {
-  position: relative; /* 🔒 badges, overlays, estabilidad */
+  position: relative;
   background: #ffffff;
   border-radius: 16px;
-  padding: 12px;
+  padding: 36px 12px 12px; /* 👈 arriba reservado */
   box-shadow: 0 6px 18px rgba(0,0,0,0.06);
 
   display: flex;
   flex-direction: column;
   gap: 6px;
 
-  /* 🔒 evita saltos por animación */
   will-change: transform;
-
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   animation: cardFadeUp 0.35s ease both;
 }
@@ -412,7 +405,6 @@ body {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;       /* ⬅️ reserva espacio (clave para CLS) */
-  max-height: 200px;
   margin-bottom: 6px;
   border-radius: 12px;
   background: #ffffff;       /* fondo limpio */
@@ -420,6 +412,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+@media (min-width: 768px) {
+  .home-product-img-wrapper {
+    max-height: 200px;
+  }
 }
 
 .home-product-img {
@@ -848,6 +845,6 @@ body {
 
 @media (max-width: 600px) {
   .why-us {
-    height: 360px; /* móvil necesita más aire */
+    min-height: 360px; /* móvil necesita más aire */
   }
 }
