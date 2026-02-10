@@ -21,7 +21,7 @@ body {
   height: 280px;
   overflow: hidden;
   z-index: 1;
-  margin-top: 0;
+  margin-top: -65px;
 }
 
 .home-hero-img {
