@@ -19,9 +19,10 @@ const Product = lazy(() => import("./pages/Product"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 
-// 🆕 Legal Pages (SEO / Meta Required)
+// 🆕 Legal Pages (IMPORT NORMAL o lazy, pero lo dejamos lazy profesional)
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const DataDeletion = lazy(() => import("./pages/DataDeletion"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 
 // Admin Core
 const AdminLayout = lazy(() => import("./pages/AdminLayout"));
@@ -31,8 +32,6 @@ const AdminOrderDetail = lazy(() => import("./pages/AdminOrderDetail"));
 const AdminPaymentMethods = lazy(() => import("./pages/AdminPaymentMethods"));
 const AdminCampaigns = lazy(() => import("./pages/AdminCampaigns"));
 const AdminInsights = lazy(() => import("./pages/AdminInsights"));
-
-// 🆕 Publisher
 const AdminPublisher = lazy(() => import("./pages/AdminPublisher"));
 
 // Auth
@@ -57,17 +56,16 @@ export default function App() {
 
         {/* 🌍 PUBLIC SITE */}
         <Route element={<PublicLayout />}>
-
           <Route path="/" element={<Home />} />
           <Route path="/category/:slug" element={<Category />} />
           <Route path="/product/:slug" element={<Product />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
 
-          {/* 🆕 Legal Pages (Meta Required) */}
+          {/* 🆕 LEGAL PAGES (SEO + META REQUIRED) */}
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/data-deletion" element={<DataDeletion />} />
-
+          <Route path="/terms-of-service" element={<TermsOfService />} />
         </Route>
 
         {/* 🔐 ADMIN LOGIN */}
