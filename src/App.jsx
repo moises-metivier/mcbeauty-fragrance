@@ -19,6 +19,10 @@ const Product = lazy(() => import("./pages/Product"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 
+// 🆕 Legal Pages (SEO / Meta Required)
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const DataDeletion = lazy(() => import("./pages/DataDeletion"));
+
 // Admin Core
 const AdminLayout = lazy(() => import("./pages/AdminLayout"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
@@ -27,6 +31,9 @@ const AdminOrderDetail = lazy(() => import("./pages/AdminOrderDetail"));
 const AdminPaymentMethods = lazy(() => import("./pages/AdminPaymentMethods"));
 const AdminCampaigns = lazy(() => import("./pages/AdminCampaigns"));
 const AdminInsights = lazy(() => import("./pages/AdminInsights"));
+
+// 🆕 Publisher
+const AdminPublisher = lazy(() => import("./pages/AdminPublisher"));
 
 // Auth
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
@@ -47,13 +54,20 @@ export default function App() {
   return (
     <Suspense fallback={<div style={{ padding: 40 }}>Cargando…</div>}>
       <Routes>
+
         {/* 🌍 PUBLIC SITE */}
         <Route element={<PublicLayout />}>
+
           <Route path="/" element={<Home />} />
           <Route path="/category/:slug" element={<Category />} />
           <Route path="/product/:slug" element={<Product />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+
+          {/* 🆕 Legal Pages (Meta Required) */}
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/data-deletion" element={<DataDeletion />} />
+
         </Route>
 
         {/* 🔐 ADMIN LOGIN */}
@@ -98,10 +112,12 @@ export default function App() {
           <Route path="designs" element={<AdminDesigns />} />
           <Route path="posts" element={<AdminPosts />} />
           <Route path="home-sections" element={<AdminHomeSections />} />
+          <Route path="publisher" element={<AdminPublisher />} />
         </Route>
 
         {/* ❓ FALLBACK */}
         <Route path="*" element={<Navigate to="/" replace />} />
+
       </Routes>
     </Suspense>
   );
