@@ -123,3 +123,43 @@ body.theme-elegante {
 .public-main {
   padding-top: 65px; /* ajusta si el navbar cambia de alto */
 }
+
+
+.legal-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  line-height: 1.8;
+  color: #111827;
+}
+
+.legal-container h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.legal-container h2 {
+  margin-top: 35px;
+  font-size: 20px;
+}
+
+.legal-container ul {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.legal-container a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.legal-container a:hover {
+  text-decoration: underline;
+}
+
+.legal-updated {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
