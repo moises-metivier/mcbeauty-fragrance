@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "../Admin.css";
 import "./AdminPublisher.css";
+import { supabase } from "../lib/supabaseClient";
 import {
   uploadMediaFiles,
   createPublisherPost,
@@ -13,6 +14,7 @@ const PLATFORMS = [
   { id: "facebook", label: "Facebook" },
   { id: "instagram", label: "Instagram" },
   { id: "tiktok", label: "TikTok" },
+  { id: "youtube", label: "YouTube Shorts" },
   { id: "whatsapp", label: "WhatsApp" },
 ];
 
@@ -22,11 +24,13 @@ export default function AdminPublisher() {
   const [posts, setPosts] = useState([]);
 
   const [postType, setPostType] = useState("image"); // image | carousel | video
+  const [mode, setMode] = useState("normal"); // normal | saturday
   const [caption, setCaption] = useState("");
   const [selectedPlatforms, setSelectedPlatforms] = useState({
     facebook: true,
     instagram: true,
     tiktok: false,
+    youtube: false,
     whatsapp: false,
   });
 
@@ -118,6 +122,10 @@ export default function AdminPublisher() {
     // scheduledAt: si vacío => FIFO
     const scheduled_at = scheduledAt ? new Date(scheduledAt).toISOString() : null;
     const auto_queue = !scheduled_at; // FIFO si no hay fecha
+    const finalPlatforms =
+      mode === "saturday"
+        ? activePlatformList.filter(p => p === "facebook" || p === "instagram")
+        : activePlatformList;
 
     try {
       setSaving(true);
@@ -126,15 +134,28 @@ export default function AdminPublisher() {
       const mediaRows = await uploadMediaFiles(files);
 
       // 2) crear 1 post por plataforma seleccionada
-      for (const platform of activePlatformList) {
-        await createPublisherPost({
-          platform,
-          post_type: postType,
-          caption: caption || "",
-          scheduled_at,
-          auto_queue,
-          mediaRows,
-        });
+      if (mode === "saturday") {
+        for (const platform of finalPlatforms) {
+          await supabase
+            .from("publisher_saturday_posts")
+            .insert({
+              platform,
+              post_type: postType,
+              caption: caption || "",
+              media_ids: mediaRows.map(m => m.id),
+            });
+        }
+      } else {
+        for (const platform of finalPlatforms) {
+          await createPublisherPost({
+            platform,
+            post_type: postType,
+            caption: caption || "",
+            scheduled_at,
+            auto_queue,
+            mediaRows,
+          });
+        }
       }
 
       resetForm();
@@ -183,7 +204,32 @@ export default function AdminPublisher() {
       <section className="admin-card publisher-card">
         <div className="publisher-card-head">
           <h2>Nueva publicación</h2>
-          <span className="muted">Modo: {scheduledAt ? "📅 Programada" : "🤖 FIFO automática"}</span>
+          <span className="muted">
+            {mode === "saturday"
+              ? "🟡 Especial sábado (09:00 AM automático)"
+              : scheduledAt
+                ? "📅 Programada"
+                : "🤖 FIFO automática"}
+          </span>
+        </div>
+
+        <div style={{ marginBottom: 20 }}>
+          <button
+            type="button"
+            className={`chip ${mode === "normal" ? "active" : ""}`}
+            onClick={() => setMode("normal")}
+          >
+            📆 Publicación Normal
+          </button>
+
+          <button
+            type="button"
+            className={`chip ${mode === "saturday" ? "active" : ""}`}
+            onClick={() => setMode("saturday")}
+            style={{ marginLeft: 10 }}
+          >
+            🟡 Especial Sábado
+          </button>
         </div>
 
         <form onSubmit={handleSubmit} className="publisher-form">
