@@ -859,3 +859,24 @@ body {
     min-height: 360px; /* móvil necesita más aire */
   }
 }
+
+/* =============================
+   FIX: Pills que aguanten más en móvil
+============================= */
+@media (max-width: 600px) {
+  .home-filters-section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .home-filters {
+    gap: 6px;              /* antes 10px */
+    margin-bottom: 8px;
+  }
+
+  .home-pill-filter {
+    padding: 7px 10px;     /* antes 8px 14px */
+    font-size: 13px;       /* antes 14px */
+    border-radius: 999px;
+  }
+}
