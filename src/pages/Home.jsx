@@ -141,13 +141,16 @@ export default function Home() {
   const hero = useMemo(
     () => ({
       title: "Compra fácil por WhatsApp",
-      subtitle: "Atención personalizada · Pago contra entrega · Entregas rápidas",
+      benefits: [
+        "Productos 100% originales",
+        "Entrega rápida en RD",
+        "Atención directa por WhatsApp",
+      ],
       image: "/banner.webp",
       cta: "Ver catálogo",
     }),
     []
   );
-
   /* ============================= */
   /* LOAD PRODUCTS (PRO: desde service único) */
   /* ============================= */
@@ -398,7 +401,11 @@ export default function Home() {
 
         <div className="home-hero-cta">
           <h1>{hero.title}</h1>
-          <p>{hero.subtitle}</p>
+          <ul className="hero-benefits">
+            {hero.benefits.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
 
           <button
             className="home-hero-btn"

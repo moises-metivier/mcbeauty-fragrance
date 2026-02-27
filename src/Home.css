@@ -880,3 +880,24 @@ body {
     border-radius: 999px;
   }
 }
+
+.hero-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 18px;
+}
+
+.hero-benefits li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.hero-benefits li::before {
+  content: "✔";
+  color: #25d366;
+  font-weight: bold;
+  font-size: 14px;
+}
