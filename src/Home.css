@@ -119,6 +119,8 @@ body {
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 10px;
+  justify-content: center;
+  align-items: center;
 }
 
 .home-pill-filter {
@@ -128,6 +130,13 @@ body {
   background: #fff;
   cursor: pointer;
   font-size: 14px;
+
+  white-space: nowrap; /* ✅ evita que el texto se parta */
+  flex: 0 0 auto;      /* ✅ evita que se estire raro */
+  width: auto;         /* ✅ por si algún CSS global le puso width:100% */
+  display: inline-flex;/* ✅ mejor control del alto */
+  align-items: center;
+  justify-content: center;
 }
 
 .home-pill-filter.active {
