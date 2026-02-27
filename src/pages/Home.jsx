@@ -329,6 +329,22 @@ export default function Home() {
     return () => clearTimeout(searchTimeout.current);
   }, [search, filteredProducts.length]);
 
+  /* ============================= */
+  /*  AL DAR CLICK A REGRESAR EL CALALOGO = VUELVE DONDE ESTABA  */
+  /* ============================= */
+  useEffect(() => {
+    if (!loading) {
+      const savedScroll = sessionStorage.getItem("catalogScroll");
+      if (savedScroll) {
+        window.scrollTo({
+          top: parseInt(savedScroll, 10),
+          behavior: "auto",
+        });
+        sessionStorage.removeItem("catalogScroll");
+      }
+    }
+  }, [loading]);
+
   useEffect(() => {
     let fired = false;
 
@@ -410,7 +426,13 @@ export default function Home() {
           <button
             className="home-hero-btn"
             aria-label="Ver catálogo de productos"
-            onClick={() => catalogRef.current?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => {
+              const el = document.getElementById("catalogo");
+              if (!el) return;
+
+              const y = el.getBoundingClientRect().top + window.scrollY - 80; // 80 = altura navbar
+              window.scrollTo({ top: y, behavior: "smooth" });
+            }}
           >
             🟢 {hero.cta}
           </button>
@@ -523,7 +545,7 @@ export default function Home() {
       })}
 
       {/* ================= CATALOG ================= */}
-      <section ref={catalogRef} className="home-products-section">
+      <section id="catalogo" ref={catalogRef} className="home-products-section">
         <h2 className="home-section-title">Catálogo</h2>
 
         {loading && <p>Cargando productos...</p>}
@@ -542,7 +564,10 @@ export default function Home() {
               <article
                 key={p.id}
                 className="home-product-card"
-                onClick={() => navigate(`/product/${p.slug}`)}
+                onClick={() => {
+                  sessionStorage.setItem("catalogScroll", window.scrollY);
+                  navigate(`/product/${p.slug}`);
+                }}
                 style={{ cursor: "pointer" }}
               >
                 <div className="home-product-img-wrapper">
