@@ -246,3 +246,20 @@
 .dropdown-menu a:hover {
   background: #f5f5f5;
 }
+
+/* ============================= */
+/* MOBILE EDGE ALIGN FIX */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+  .navbar {
+    padding: 0; /* quitamos padding lateral */
+  }
+
+  .navbar-inner {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+}
