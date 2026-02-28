@@ -8,6 +8,7 @@
     <!-- Canonical (base) -->
     <link rel="canonical" href="https://mcbeautyfragrance.com/" />
 
+    <!-- Preload banner -->
     <link
       rel="preload"
       as="image"
@@ -19,23 +20,23 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon.png" />
 
-    <!-- SEO principal (base general) -->
+    <!-- SEO principal -->
     <title>Perfumes, Cremas y Moda en RD | MC Beauty & Fragrance</title>
     <meta
       name="description"
-      content="Compra perfumes y cremas 100% originales y más productos en República Dominicana. Pago contra entrega, atención por WhatsApp y entregas rápidas. MC Beauty & Fragrance."
+      content="Compra perfumes y cremas 100% originales en República Dominicana. Atención por WhatsApp y transferencias bancarias disponibles. MC Beauty & Fragrance."
     />
     <meta name="robots" content="index, follow" />
 
-    <!-- Color del navegador móvil -->
+    <!-- Color navegador móvil -->
     <meta name="theme-color" content="#fdecef" />
 
-    <!-- Open Graph (WhatsApp / Facebook) -->
+    <!-- Open Graph -->
     <meta property="og:site_name" content="MC Beauty & Fragrance" />
     <meta property="og:title" content="MC Beauty & Fragrance | Tienda en RD" />
     <meta
       property="og:description"
-      content="Perfumes y cremas originales en RD, pago contra entrega y atención por WhatsApp."
+      content="Perfumes y cremas originales en RD, atención por WhatsApp y transferencias bancarias."
     />
     <meta property="og:image" content="https://mcbeautyfragrance.com/banner.webp" />
     <meta property="og:url" content="https://mcbeautyfragrance.com/" />
@@ -47,31 +48,107 @@
     <meta name="twitter:title" content="MC Beauty & Fragrance | Tienda en RD" />
     <meta
       name="twitter:description"
-      content="Compra perfumes y cremas originales en RD con pago contra entrega."
+      content="Compra perfumes y cremas originales en RD con atención por WhatsApp y transferencias bancarias."
     />
     <meta name="twitter:image" content="https://mcbeautyfragrance.com/banner.webp" />
 
-    <!-- Schema base (Store / OnlineStore) -->
+    <!-- ========================= -->
+    <!-- SCHEMA PROFESIONAL COMPLETO -->
+    <!-- ========================= -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Store",
-        "name": "MC Beauty & Fragrance",
-        "url": "https://mcbeautyfragrance.com",
-        "logo": "https://mcbeautyfragrance.com/logo.png",
-        "image": "https://mcbeautyfragrance.com/banner.webp",
-        "description": "Tienda en República Dominicana: perfumes, cremas y más productos. Pago contra entrega y atención por WhatsApp.",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "DO"
-        },
-        "sameAs": [
-          "https://www.facebook.com/mcbeautyfragrance/",
-          "https://www.instagram.com/mcbeautyfragrance",
-          "https://www.tiktok.com/@mcbeautyfragrance"
+        "@graph": [
+
+          {
+            "@type": "Organization",
+            "@id": "https://mcbeautyfragrance.com/#organization",
+            "name": "MC Beauty & Fragrance",
+            "url": "https://mcbeautyfragrance.com",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://mcbeautyfragrance.com/logo.png"
+            },
+            "email": "mcbeautyfragrance@gmail.com",
+            "sameAs": [
+              "https://www.facebook.com/mcbeautyfragrance/",
+              "https://www.instagram.com/mcbeautyfragrance",
+              "https://www.tiktok.com/@mcbeautyfragrance"
+            ],
+            "contactPoint": [
+              {
+                "@type": "ContactPoint",
+                "telephone": "+1-829-728-3652",
+                "contactType": "customer service",
+                "areaServed": "DO",
+                "availableLanguage": ["es"]
+              }
+            ]
+          },
+
+          {
+            "@type": "OnlineStore",
+            "@id": "https://mcbeautyfragrance.com/#store",
+            "name": "MC Beauty & Fragrance",
+            "url": "https://mcbeautyfragrance.com",
+            "image": "https://mcbeautyfragrance.com/banner.webp",
+            "description": "Tienda online en República Dominicana especializada en perfumes, body mists, cremas, lociones y moda. Atención por WhatsApp y pagos por transferencia.",
+            "priceRange": "RD$300 - RD$6,000+",
+            "paymentAccepted": "Bank Transfer",
+            "currenciesAccepted": "DOP",
+            "areaServed": {
+              "@type": "Country",
+              "name": "Dominican Republic"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "DO"
+            },
+            "brand": {
+              "@type": "Organization",
+              "@id": "https://mcbeautyfragrance.com/#organization"
+            },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Catálogo de productos",
+              "itemListElement": [
+                { "@type": "OfferCatalog", "name": "Perfumes" },
+                { "@type": "OfferCatalog", "name": "Body Mists / Splash" },
+                { "@type": "OfferCatalog", "name": "Cremas y Lociones" },
+                { "@type": "OfferCatalog", "name": "Pijamas y Moda" }
+              ]
+            },
+            "openingHoursSpecification": [
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": "Sunday",
+                "opens": "09:30",
+                "closes": "14:30"
+              },
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday"
+                ],
+                "opens": "09:00",
+                "closes": "19:00"
+              },
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": "Friday",
+                "opens": "09:00",
+                "closes": "18:00"
+              }
+            ]
+          }
+
         ]
       }
     </script>
+
   </head>
 
   <body>
