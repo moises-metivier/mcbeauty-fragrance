@@ -20,7 +20,7 @@ export default function Footer() {
 
           <div className="footer-socials">
             <a
-              href="https://www.facebook.com/share/1KHhnAs4g1/"
+              href="https://www.facebook.com/mcbeautyfragrance/"
               target="_blank"
               rel="noopener noreferrer"
             >

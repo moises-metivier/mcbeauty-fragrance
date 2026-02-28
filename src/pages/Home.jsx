@@ -385,7 +385,7 @@ export default function Home() {
               "Tienda online de perfumes, body mist (splash) y cremas corporales 100% originales en República Dominicana. Pago contra entrega y atención directa por WhatsApp.",
             "sameAs": [
               "https://www.instagram.com/mcbeautyfragrance",
-              "https://www.facebook.com/share/1KHhnAs4g1/",
+              "https://www.facebook.com/mcbeautyfragrance/",
               "https://www.tiktok.com/@mcbeautyfragrance",
               "https://wa.me/18297283652"
             ],
