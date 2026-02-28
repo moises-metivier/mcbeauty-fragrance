@@ -21,7 +21,7 @@ body {
   height: 280px;
   overflow: hidden;
   z-index: 1;
-  margin-top: -65px;
+  
 }
 
 .home-hero-img {
@@ -101,10 +101,17 @@ body {
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
-  padding: 22px 16px;
+  padding: 22px 24px;
   scroll-margin-top: 80px;
 
   
+}
+
+@media (max-width: 600px) {
+  .home-products-section {
+   
+    padding-right: 18px;
+  }
 }
 
 
@@ -373,6 +380,7 @@ body {
 @media (max-width: 600px) {
   .home-hero {
     height: 220px;
+    
   }
 
   .home-hero-cta h1 {
@@ -414,7 +422,7 @@ body {
 .home-product-img-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 5;       /* ⬅️ reserva espacio (clave para CLS) */
+  aspect-ratio: 0.8 / 1;       /* ⬅️ reserva espacio (clave para CLS) */
   margin-bottom: 6px;
   border-radius: 12px;
   background: #ffffff;       /* fondo limpio */
@@ -636,13 +644,18 @@ body {
 .home-product-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   color: #d3488e;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  margin-bottom: 2px;
+  white-space: nowrap;      /* 🔥 clave */
+  overflow: hidden;
+  text-overflow: ellipsis;  /* si no cabe, corta elegante */
 }
 
 .home-product-meta .dot {
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 .home-product-meta .type {
@@ -864,8 +877,8 @@ body {
 ============================= */
 @media (max-width: 600px) {
   .home-filters-section {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .home-filters {
@@ -899,4 +912,88 @@ body {
   color: #25d366;
   font-weight: bold;
   font-size: 14px;
+}
+
+/* =============================
+   MOBILE GRID OPTIMIZATION
+============================= */
+@media (max-width: 600px) {
+
+  .home-products-section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .home-products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding: 0; /* IMPORTANTE */
+  }
+
+  .home-product-card {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+
+  .home-product-name {
+    font-size: 0.85rem;
+  }
+
+  .home-product-price {
+    font-size: 0.95rem;
+  }
+
+  .btn-add {
+    padding: 7px;
+    font-size: 13px;
+  }
+}
+
+/* =============================
+   MOBILE PRODUCT CARD OPTIMIZATION
+============================= */
+@media (max-width: 600px) {
+
+  /* Ocultar cantidad en catálogo móvil */
+  .home-products-section .home-product-card input[type="number"] {
+    display: none;
+  }
+
+  /* Reducir padding vertical */
+  .home-products-section .home-product-card {
+    padding: 16px 10px 12px;
+  }
+
+  /* Reducir imagen ligeramente */
+    .home-products-section .home-product-img-wrapper {
+    max-height: 170px;
+  }
+
+  /* Ajustar texto */
+  .home-products-section .home-product-name {
+    font-size: 0.85rem;
+    line-height: 1.2;
+  }
+
+  .home-products-section .home-product-price {
+    font-size: 0.95rem;
+  }
+
+  .home-products-section .btn-add {
+    padding: 8px;
+    font-size: 13px;
+  }
+}
+
+.home-product-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 8px 0 4px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
