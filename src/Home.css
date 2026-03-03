@@ -623,7 +623,7 @@ body {
 }
 
 .tab.active {
-  color: #111827;
+  color: #000000;
   font-weight: 600;
 }
 
@@ -1055,7 +1055,3 @@ body {
   transform: scale(0.97);
 }
 
-.home-pill-filter:not(.active) {
-  background: #fff;
-  color: #c2185b;
-}
