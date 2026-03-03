@@ -19,19 +19,6 @@ export default function Footer() {
           </p>
 
           <div className="footer-socials">
-            <a
-              href="https://www.facebook.com/mcbeautyfragrance/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src="/facebook.svg"
-                alt="Facebook"
-                width="24"
-                height="24"
-                loading="lazy"
-              />
-            </a>
 
             <a
               href="https://www.instagram.com/mcbeautyfragrance"
@@ -41,6 +28,20 @@ export default function Footer() {
               <img
                 src="/instagram.svg"
                 alt="Instagram"
+                width="24"
+                height="24"
+                loading="lazy"
+              />
+            </a>
+            
+            <a
+              href="https://www.facebook.com/mcbeautyfragrance/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="/facebook.svg"
+                alt="Facebook"
                 width="24"
                 height="24"
                 loading="lazy"
