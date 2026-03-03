@@ -442,3 +442,43 @@
     min-height: 320px;
   }
 }
+/* =========================
+   PRODUCT SEO CONTENT (PRO)
+========================= */
+
+.product-seo-content{
+  margin-top: 28px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px 22px 26px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.06);
+}
+
+.product-seo-content h2{
+  margin: 0 0 10px;
+  font-size: 1.4rem;
+  color: #111827;
+}
+
+.product-seo-content h3{
+  margin-top: 20px;
+  font-size: 1.15rem;
+  color: #111827;
+}
+
+.product-seo-content p{
+  color: #374151;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.product-seo-content ul{
+  margin-top: 12px;
+  padding-left: 18px;
+}
+
+.product-seo-content li{
+  margin-bottom: 6px;
+  color: #374151;
+  font-size: 0.92rem;
+}

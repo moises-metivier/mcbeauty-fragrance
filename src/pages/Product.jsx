@@ -18,6 +18,128 @@ function clampQty(v) {
   return Math.max(1, Math.min(10, Math.trunc(n)));
 }
 
+/** ================================
+ * Helpers para texto dinámico (NO rompe clases)
+ * ================================ */
+function norm(s) {
+  return String(s || "").trim().toLowerCase();
+}
+
+function isAromaProduct({ typeName, aromaName }) {
+  // Si tiene aromaName, lo tratamos como producto de fragancia/aroma
+  if (aromaName) return true;
+
+  const t = norm(typeName);
+
+  // Tipos que normalmente son de fragancia/aroma
+  const aromaTypes = [
+    "perfume",
+    "splash",
+    "body mist",
+    "mist",
+    "body spray",
+    "spray",
+    "body cream",
+    "cream",
+    "crema",
+    "body lotion",
+    "lotion",
+    "body wash",
+    "jabón",
+    "jabon",
+    "cosmetico",
+    "cosmético",
+    "tratamiento_capilar",
+  ];
+
+  return aromaTypes.some((k) => t.includes(k));
+}
+
+function getAudienceLabel(audience) {
+  const a = norm(audience);
+  if (a === "mujer") return "mujeres";
+  if (a === "hombre") return "hombres";
+  if (a === "unisex") return "todo público";
+  if (a === "nino" || a === "niño" || a === "ninos" || a === "niños") return "niños";
+  return "todo público";
+}
+
+function getTypeHint(typeName) {
+  const t = norm(typeName);
+
+  if (t.includes("mist") || t.includes("splash")) return "(body mist o splash)";
+  if (t.includes("cream") || t.includes("crema")) return "(crema corporal)";
+  if (t.includes("lotion")) return "(loción corporal)";
+  if (t.includes("perfume")) return "(perfume)";
+  if (t.includes("body wash") || t.includes("jabon") || t.includes("jabón")) return "(cuidado corporal)";
+  if (t.includes("ropa")) return "(ropa)";
+  if (t.includes("tenis") || t.includes("zapatos")) return "(calzado)";
+  if (t.includes("reloj")) return "(reloj)";
+  if (t.includes("accesorio")) return "(accesorio)";
+  return "";
+}
+
+function buildSeoDescription({ name, typeName, brandName, aromaName, audience }) {
+  const isAroma = isAromaProduct({ typeName, aromaName });
+  const aud = getAudienceLabel(audience);
+
+  if (isAroma) {
+    return `Compra ${name}${typeName ? ` (${typeName})` : ""} de ${brandName || "marca original"} en República Dominicana. Aroma ${
+      aromaName || "exclusivo"
+    }, ideal para ${aud}. Producto 100% original, pago contra entrega y entrega rápida.`;
+  }
+
+  // Para ropa/accesorios/otros: sin “aroma”
+  return `Compra ${name}${typeName ? ` (${typeName})` : ""} en República Dominicana. Ideal para ${aud}. Producto original, pago contra entrega y entrega rápida.`;
+}
+
+function buildAboutParagraph({ name, brandName, typeName, aromaName, audience }) {
+  const isAroma = isAromaProduct({ typeName, aromaName });
+  const aud = getAudienceLabel(audience);
+  const hint = getTypeHint(typeName);
+  const brandText = brandName || "una marca reconocida";
+  const typeText = typeName || "producto";
+
+  if (isAroma) {
+    return (
+      <>
+        {name} de {brandText} es un {typeText} {hint ? `${hint} ` : ""}
+        diseñado para {aud}. Su aroma {aromaName || "especial"} lo hace ideal para el uso
+        diario y ocasiones especiales en República Dominicana.
+      </>
+    );
+  }
+
+  // Para NO-aroma (ropa, accesorios, etc.)
+  return (
+    <>
+      {name} de {brandText} es un {typeText} {hint ? `${hint} ` : ""}
+      diseñado para {aud}. Ideal para uso diario y para complementar tu estilo en República Dominicana.
+    </>
+  );
+}
+
+function buildWhyBuyList({ typeName, aromaName }) {
+  const isAroma = isAromaProduct({ typeName, aromaName });
+
+  // Mantenemos 4 bullets (igual que tú) pero adaptados
+  if (isAroma) {
+    return [
+      "✔ Producto 100% original garantizado",
+      "✔ Pago contra entrega en República Dominicana",
+      "✔ Atención directa y rápida por WhatsApp",
+      "✔ Entrega segura y confiable",
+    ];
+  }
+
+  return [
+    "✔ Producto original y verificado",
+    "✔ Pago contra entrega en República Dominicana",
+    "✔ Atención directa y rápida por WhatsApp",
+    "✔ Entrega segura y confiable",
+  ];
+}
+
 export default function Product() {
   const { slug } = useParams();
   const { addToCart } = useCart();
@@ -42,11 +164,7 @@ export default function Product() {
 
         setProduct(found);
 
-        trackPageView(
-          `/product/${found.slug}`,
-          "product",
-          found.id
-        );
+        trackPageView(`/product/${found.slug}`, "product", found.id);
       } catch (e) {
         console.error("Error cargando producto:", e);
         if (alive) setProduct(null);
@@ -76,48 +194,58 @@ export default function Product() {
     audience,
   } = product;
 
+  const seoDescription = buildSeoDescription({
+    name,
+    typeName,
+    brandName,
+    aromaName,
+    audience,
+  });
+
+  const whyBuyBullets = buildWhyBuyList({ typeName, aromaName });
+
   return (
     <>
       {/* ================= SEO ================= */}
       <SEO
-        title={`${name}${typeName ? ` | ${typeName}` : ""} ${brandName ? `| ${brandName}` : ""} en República Dominicana | MC Beauty & Fragrance`}
-        description={`Compra ${name}${typeName ? ` (${typeName})` : ""} de ${brandName || "marca original"} en República Dominicana. Aroma ${aromaName || "exclusivo"}, ideal para ${audience || "uso diario"}. Producto 100% original, pago contra entrega y envío rápido.`}
+        title={`${name}${typeName ? ` | ${typeName}` : ""}${
+          brandName ? ` | ${brandName}` : ""
+        } en República Dominicana | MC Beauty & Fragrance`}
+        description={seoDescription}
         image={image_url || "https://mcbeautyfragrance.com/banner.webp"}
         canonical={`https://mcbeautyfragrance.com/product/${slug}`}
       />
+
       <script type="application/ld+json">
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": name,
-        "image": image_url
-          ? [image_url]
-          : ["https://mcbeautyfragrance.com/banner.webp"],
-        "description": description || notes || name,
-        "sku": id,
-        "brand": {
-          "@type": "Brand",
-          "name": brandName || "MC Beauty & Fragrance"
-        },
-        "category": typeName || "Producto",
-        "offers": {
-          "@type": "Offer",
-          "url": `https://mcbeautyfragrance.com/product/${slug}`,
-          "priceCurrency": "DOP",
-          "price": price,
-          "availability":
-            stock > 0
-              ? "https://schema.org/InStock"
-              : "https://schema.org/OutOfStock",
-          "itemCondition": "https://schema.org/NewCondition"
-        }
-      })}
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: name,
+          image: image_url ? [image_url] : ["https://mcbeautyfragrance.com/banner.webp"],
+          description: description || notes || name,
+          sku: id,
+          brand: {
+            "@type": "Brand",
+            name: brandName || "MC Beauty & Fragrance",
+          },
+          category: typeName || "Producto",
+          offers: {
+            "@type": "Offer",
+            url: `https://mcbeautyfragrance.com/product/${slug}`,
+            priceCurrency: "DOP",
+            price: price,
+            availability:
+              stock > 0
+                ? "https://schema.org/InStock"
+                : "https://schema.org/OutOfStock",
+            itemCondition: "https://schema.org/NewCondition",
+          },
+        })}
       </script>
 
       {/* ================= PRODUCT ================= */}
       <div className="product-page">
         <div className="product-detail-card">
-
           <div className="product-detail-imageWrap">
             <img
               src={image_url || "/placeholder.png"}
@@ -136,37 +264,29 @@ export default function Product() {
             </div>
 
             {aromaName && (
-              <div className="product-detail-aroma">
-                Aroma: {aromaName}
-              </div>
+              <div className="product-detail-aroma">Aroma: {aromaName}</div>
             )}
 
             {audience && (
               <div className="product-detail-audience">
-                {audience === "mujer" && "Mujer"}
-                {audience === "hombre" && "Hombre"}
-                {audience === "unisex" && "Unisex"}
-                {audience === "nino" && "Niños"}
+                {(audience === "mujer" && "Mujer") ||
+                  (audience === "hombre" && "Hombre") ||
+                  (audience === "unisex" && "Unisex") ||
+                  ((audience === "nino" || audience === "ninos") && "Niños")}
               </div>
             )}
 
-            {description && (
-              <p className="product-detail-desc">{description}</p>
-            )}
+            {description && <p className="product-detail-desc">{description}</p>}
 
             {notes && (
               <div className="product-detail-notes">
-                <div className="product-detail-notesTitle">
-                  Notas / Ingredientes
-                </div>
+                <div className="product-detail-notesTitle">Notas / Ingredientes</div>
                 <div className="product-detail-notesText">{notes}</div>
               </div>
             )}
 
             <div className="product-detail-actions">
-              <div className="product-detail-price">
-                {moneyRD(price)}
-              </div>
+              <div className="product-detail-price">{moneyRD(price)}</div>
 
               {stock <= 0 ? (
                 <div className="badge-out">Agotado</div>
@@ -177,8 +297,10 @@ export default function Product() {
                     value={qty}
                     onChange={(e) => setQty(clampQty(e.target.value))}
                   >
-                    {[1,2,3,4,5,6,7,8,9,10].map((n) => (
-                      <option key={n} value={n}>{n}</option>
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+                      <option key={n} value={n}>
+                        {n}
+                      </option>
                     ))}
                   </select>
 
@@ -216,32 +338,21 @@ export default function Product() {
           <h2>Sobre {name}</h2>
 
           <p>
-            {name} de {brandName || "una marca reconocida"} es un{" "}
-            {typeName || "producto"}{" "}
-            {typeName?.toLowerCase().includes("mist") ||
-            typeName?.toLowerCase().includes("splash")
-              ? "(body mist o splash)"
-              : typeName?.toLowerCase().includes("cream") ||
-                typeName?.toLowerCase().includes("crema")
-              ? "(crema corporal) "
-              : ""}
-            diseñado para{" "}
-            {audience === "mujer"
-              ? "mujeres"
-              : audience === "hombre"
-              ? "hombres"
-              : "todo público"}.
-            Su aroma {aromaName || "especial"} lo hace ideal para el uso diario
-            y ocasiones especiales en República Dominicana.
+            {buildAboutParagraph({
+              name,
+              brandName,
+              typeName,
+              aromaName,
+              audience,
+            })}
           </p>
 
           <h3>¿Por qué comprar {name} en MC Beauty & Fragrance?</h3>
 
           <ul>
-            <li>✔ Producto 100% original garantizado</li>
-            <li>✔ Pago contra entrega en República Dominicana</li>
-            <li>✔ Atención directa y rápida por WhatsApp</li>
-            <li>✔ Entrega segura y confiable</li>
+            {whyBuyBullets.map((t) => (
+              <li key={t}>{t}</li>
+            ))}
           </ul>
         </section>
       </div>
