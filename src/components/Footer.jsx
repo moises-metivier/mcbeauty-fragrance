@@ -33,7 +33,7 @@ export default function Footer() {
                 loading="lazy"
               />
             </a>
-            
+
             <a
               href="https://www.facebook.com/mcbeautyfragrance/"
               target="_blank"
