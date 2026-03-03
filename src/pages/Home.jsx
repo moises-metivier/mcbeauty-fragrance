@@ -709,17 +709,19 @@ export default function Home() {
           </p>
 
           <p>
-            Realiza tu compra de forma fácil y segura con pago contra entrega y atención
-            directa por WhatsApp. Entregamos en Santo Domingo y otras zonas del país.
+            Realiza tu pedido de forma fácil y segura. Coordinamos el pago por transferencia
+            bancaria antes del envío y brindamos atención directa por WhatsApp.
+            Realizamos entregas rápidas en toda República Dominicana.
           </p>
 
-          <h3>¿Por qué comprar perfumes y cremas en MC Beauty & Fragrance?</h3>
+          <h3>¿Por qué comprar en MC Beauty & Fragrance?</h3>
 
           <ul>
             <li>✔ Productos 100% originales garantizados</li>
-            <li>✔ Pago contra entrega en República Dominicana</li>
+            <li>✔ Entregas rápidas en toda República Dominicana</li>
+            <li>✔ Coordinamos el pago por transferencia bancaria antes del envío</li>
             <li>✔ Atención rápida y personalizada por WhatsApp</li>
-            <li>✔ Entrega segura, rápida y confiable</li>
+            <li>✔ Envío seguro y confiable</li>
           </ul>
         </div>
       </section>

@@ -126,7 +126,8 @@ function buildWhyBuyList({ typeName, aromaName }) {
   if (isAroma) {
     return [
       "✔ Producto 100% original garantizado",
-      "✔ Pago contra entrega en República Dominicana",
+      "✔ Entregas rápidas en toda República Dominicana",
+      "✔ Pago seguro por transferencia bancaria antes del envío",
       "✔ Atención directa y rápida por WhatsApp",
       "✔ Entrega segura y confiable",
     ];
@@ -134,7 +135,8 @@ function buildWhyBuyList({ typeName, aromaName }) {
 
   return [
     "✔ Producto original y verificado",
-    "✔ Pago contra entrega en República Dominicana",
+    "✔ Entregas rápidas en toda República Dominicana",
+    "✔ Pago seguro por transferencia bancaria antes del envío",
     "✔ Atención directa y rápida por WhatsApp",
     "✔ Entrega segura y confiable",
   ];
