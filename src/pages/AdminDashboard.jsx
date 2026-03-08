@@ -1693,7 +1693,7 @@ export default function AdminDashboard() {
                 id="image-file-input"
                 accept="image/*,video/mp4,video/webm"
                 multiple
-                onChange={(e) => setMediaFiles([...e.target.files])}
+                onChange={(e) => setMediaFiles(Array.from(e.target.files || []))}
                 style={{ display: "none" }}
               />
 
