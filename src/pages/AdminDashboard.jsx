@@ -281,6 +281,9 @@ export default function AdminDashboard() {
 
     loadMetrics();
   }, []);
+
+
+  
   
 
  
@@ -407,6 +410,27 @@ export default function AdminDashboard() {
   function getAromaLabel(p) {
     if (p?.aroma) return formatLabel(p.aroma);
     return "—";
+  }
+
+
+
+  function removeMedia(index) {
+    setMediaFiles((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function moveMedia(index, direction) {
+    setMediaFiles((prev) => {
+      const arr = [...prev];
+      const newIndex = index + direction;
+
+      if (newIndex < 0 || newIndex >= arr.length) return prev;
+
+      const temp = arr[index];
+      arr[index] = arr[newIndex];
+      arr[newIndex] = temp;
+
+      return arr;
+    });
   }
 
 
@@ -1695,7 +1719,12 @@ export default function AdminDashboard() {
                 id="image-file-input"
                 accept="image/*,video/mp4,video/webm"
                 multiple
-                onChange={(e) => setMediaFiles(Array.from(e.target.files || []))}
+                onChange={(e) =>
+                  setMediaFiles((prev) => [
+                    ...prev,
+                    ...Array.from(e.target.files || [])
+                  ])
+                }
                 style={{ display: "none" }}
               />
 
@@ -1706,6 +1735,57 @@ export default function AdminDashboard() {
               >
                 📁 Seleccionar imágenes o video
               </label>
+
+              {mediaFiles.length > 0 && (
+                <div className="media-preview-grid">
+                  {mediaFiles.map((file, index) => (
+                    <div key={index} className="media-preview-card">
+                      <div className="media-preview-thumb">
+                        {file.type.startsWith("video") ? (
+                          <video
+                            src={URL.createObjectURL(file)}
+                            muted
+                            playsInline
+                            className="media-preview-media"
+                          />
+                        ) : (
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt="preview"
+                            className="media-preview-media"
+                          />
+                        )}
+                      </div>
+
+                      <div className="media-preview-controls">
+                        <button
+                          type="button"
+                          onClick={() => moveMedia(index, -1)}
+                          disabled={index === 0}
+                        >
+                          ⬅
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => moveMedia(index, 1)}
+                          disabled={index === mediaFiles.length - 1}
+                        >
+                          ➡
+                        </button>
+
+                        <button
+                          type="button"
+                          className="danger"
+                          onClick={() => removeMedia(index)}
+                        >
+                          ❌
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {imageFileName && (
                 <small style={{ display: "block", marginTop: 6 }}>
