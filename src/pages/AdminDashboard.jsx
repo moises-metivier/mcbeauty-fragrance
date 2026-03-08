@@ -855,14 +855,16 @@ export default function AdminDashboard() {
       if (mediaFiles.length > 0) {
         const uploads = [];
 
-        for (const file of mediaFiles) {
+        for (let i = 0; i < mediaFiles.length; i++) {
+          const file = mediaFiles[i];
+
           const { publicUrl } = await uploadProductImage(file, { folder: "products" });
 
           uploads.push({
             product_id: productId,
             image_url: publicUrl,
             media_type: file.type.startsWith("video") ? "video" : "image",
-            position: uploads.length
+            position: i
           });
         }
 
