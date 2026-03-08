@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import { loadPublicProductBySlug } from "../services/productService";
 import { trackPageView } from "../services/analyticsService";
+import { supabase } from "../lib/supabaseClient";
 import SEO from "../components/SEO";
 import "../product.css";
 
@@ -119,6 +120,8 @@ function buildAboutParagraph({ name, brandName, typeName, aromaName, audience })
   );
 }
 
+
+
 function buildWhyBuyList({ typeName, aromaName }) {
   const isAroma = isAromaProduct({ typeName, aromaName });
 
@@ -149,6 +152,50 @@ export default function Product() {
   const [product, setProduct] = useState(null);
   const [qty, setQty] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [media, setMedia] = useState([]);
+  const [mediaIndex, setMediaIndex] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
+
+  useEffect(() => {
+    setMediaIndex(0);
+  }, [slug]);
+
+  const SWIPE_THRESHOLD = 50; // píxeles mínimos para considerar swipe
+
+  function nextMedia() {
+    setMediaIndex((prev) => (prev + 1) % mediaList.length);
+  }
+
+  function prevMedia() {
+    setMediaIndex((prev) => (prev - 1 + mediaList.length) % mediaList.length);
+  }
+
+
+  function handleTouchStart(e) {
+    setTouchEndX(null);
+    setTouchStartX(e.touches[0].clientX);
+  }
+
+  function handleTouchMove(e) {
+    setTouchEndX(e.touches[0].clientX);
+  }
+
+  function handleTouchEnd() {
+    if (touchStartX === null || touchEndX === null) return;
+
+    const distance = touchStartX - touchEndX;
+
+    if (distance > SWIPE_THRESHOLD) {
+      // swipe izquierda → siguiente
+      nextMedia();
+    }
+
+    if (distance < -SWIPE_THRESHOLD) {
+      // swipe derecha → anterior
+      prevMedia();
+    }
+  }
 
   useEffect(() => {
     let alive = true;
@@ -165,6 +212,15 @@ export default function Product() {
         }
 
         setProduct(found);
+
+        // cargar media extra (fotos / videos)
+        const { data: mediaRows } = await supabase
+          .from("product_images")
+          .select("*")
+          .eq("product_id", found.id)
+          .order("position");
+
+        setMedia(mediaRows || []);
 
         trackPageView(`/product/${found.slug}`, "product", found.id);
       } catch (e) {
@@ -195,6 +251,15 @@ export default function Product() {
     image_url,
     audience,
   } = product;
+
+  const mediaList = [
+    ...(image_url
+      ? [{ media_type: "image", image_url }]
+      : []),
+    ...media.filter(m => m.image_url !== image_url)
+  ];
+
+  
 
   const seoDescription = buildSeoDescription({
     name,
@@ -249,11 +314,51 @@ export default function Product() {
       <div className="product-page">
         <div className="product-detail-card">
           <div className="product-detail-imageWrap">
-            <img
-              src={image_url || "/placeholder.png"}
-              alt={name}
-              className="product-detail-image"
-            />
+            <div
+              className="product-gallery"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+
+              {mediaList.length > 1 && (
+                <button className="gallery-arrow left" onClick={prevMedia}>
+                  ‹
+                </button>
+              )}
+
+              {mediaList.length > 0 && (() => {
+                const m = mediaList[mediaIndex % mediaList.length];
+
+                if (m.media_type === "video") {
+                  return (
+                    <video
+                      src={m.image_url}
+                      className="product-detail-image"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                    />
+                  );
+                }
+
+                return (
+                  <img
+                    src={m.image_url}
+                    alt={name}
+                    className="product-detail-image"
+                  />
+                );
+              })()}
+
+              {mediaList.length > 1 && (
+                <button className="gallery-arrow right" onClick={nextMedia}>
+                  ›
+                </button>
+              )}
+
+            </div>
           </div>
 
           <div className="product-detail-info">

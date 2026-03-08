@@ -1,20 +1,51 @@
 // src/services/storageService.js
 import { supabase } from "../lib/supabaseClient";
 
-/**
- * Sube una imagen al bucket "products" (public)
- * y devuelve la URL pública lista para guardar en products.image_url
- */
 export async function uploadProductImage(file, opts = {}) {
   const bucket = "products";
   const folder = opts.folder || "products";
 
   if (!file) throw new Error("No file provided");
 
-  // nombre seguro y único
+  const isVideo = file.type.startsWith("video");
+
+  const allowedImage = [
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+  ];
+
+  const allowedVideo = [
+    "video/mp4",
+    "video/webm"
+  ];
+
+  if (
+    !allowedImage.includes(file.type) &&
+    !allowedVideo.includes(file.type)
+  ) {
+    throw new Error("Formato no permitido");
+  }
+
+  // límite tamaño
+  const maxSize = isVideo ? 20 * 1024 * 1024 : 5 * 1024 * 1024;
+
+  if (file.size > maxSize) {
+    throw new Error(
+      isVideo
+        ? "El video es demasiado grande (máx 20MB)"
+        : "La imagen es demasiado grande (máx 5MB)"
+    );
+  }
+
+  // nombre seguro
   const ext = (file.name?.split(".").pop() || "jpg").toLowerCase();
   const safeExt = ext.replace(/[^a-z0-9]/g, "") || "jpg";
-  const fileName = `${Date.now()}-${Math.random().toString(16).slice(2)}.${safeExt}`;
+
+  const fileName = `${Date.now()}-${Math.random()
+    .toString(16)
+    .slice(2)}.${safeExt}`;
+
   const path = `${folder}/${fileName}`;
 
   const { error: uploadError } = await supabase.storage
@@ -22,7 +53,7 @@ export async function uploadProductImage(file, opts = {}) {
     .upload(path, file, {
       cacheControl: "3600",
       upsert: false,
-      contentType: file.type || "image/jpeg",
+      contentType: file.type,
     });
 
   if (uploadError) {
@@ -30,8 +61,10 @@ export async function uploadProductImage(file, opts = {}) {
     throw uploadError;
   }
 
-  // URL pública
-  const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+  const { data } = supabase.storage
+    .from(bucket)
+    .getPublicUrl(path);
+
   const publicUrl = data?.publicUrl;
 
   if (!publicUrl) throw new Error("No public URL returned");
@@ -40,5 +73,6 @@ export async function uploadProductImage(file, opts = {}) {
     publicUrl,
     path,
     bucket,
+    mediaType: isVideo ? "video" : "image"
   };
 }

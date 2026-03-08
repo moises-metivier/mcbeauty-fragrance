@@ -292,6 +292,7 @@ export default function AdminDashboard() {
   const [filterActive, setFilterActive] = useState("todos");
 
   const [imageFileName, setImageFileName] = useState("");
+  const [mediaFiles, setMediaFiles] = useState([]);
 
   // -------------------- draft desde otras pantallas --------------------
   useEffect(() => {
@@ -649,6 +650,7 @@ export default function AdminDashboard() {
     setNewBrandName("");
     setNewTypeName("");
     setImageFileName("");
+    setMediaFiles([]);
   }
 
  /* -------------------- IA SUGGEST -------------------- */
@@ -832,13 +834,53 @@ export default function AdminDashboard() {
     };
 
     try {
+      let product;
+
       if (editingProductId) {
-        await updateProduct(editingProductId, payload);
+        product = await updateProduct(editingProductId, payload);
       } else {
-        await createProduct(payload);
+        product = await createProduct(payload);
+      }
+
+      const productId = editingProductId || product.id;
+
+      // si estamos editando, borrar imágenes anteriores
+      if (editingProductId) {
+        await supabase
+          .from("product_images")
+          .delete()
+          .eq("product_id", editingProductId);
+      }
+
+      if (mediaFiles.length > 0) {
+        const uploads = [];
+
+        for (const file of mediaFiles) {
+          const { publicUrl } = await uploadProductImage(file, { folder: "products" });
+
+          uploads.push({
+            product_id: productId,
+            image_url: publicUrl,
+            media_type: file.type.startsWith("video") ? "video" : "image",
+            position: uploads.length
+          });
+        }
+
+        await supabase.from("product_images").insert(uploads);
+
+        // usar la primera imagen como imagen principal
+        const firstImage = uploads.find(u => u.media_type === "image");
+
+        if (firstImage) {
+          await supabase
+            .from("products")
+            .update({ image_url: firstImage.image_url })
+            .eq("id", productId);
+        }
       }
 
       await refreshProducts();
+      setMediaFiles([]);
       cancelEdit();
     } catch (err) {
       console.error(err);
@@ -1649,8 +1691,9 @@ export default function AdminDashboard() {
               <input
                 type="file"
                 id="image-file-input"
-                accept="image/*"
-                onChange={handleImageFileChange}
+                accept="image/*,video/mp4,video/webm"
+                multiple
+                onChange={(e) => setMediaFiles([...e.target.files])}
                 style={{ display: "none" }}
               />
 
@@ -1659,7 +1702,7 @@ export default function AdminDashboard() {
                 className="btn-outline"
                 style={{ display: "inline-block" }}
               >
-                📁 Seleccionar imagen
+                📁 Seleccionar imágenes o video
               </label>
 
               {imageFileName && (
