@@ -1719,12 +1719,15 @@ export default function AdminDashboard() {
                 id="image-file-input"
                 accept="image/*,video/mp4,video/webm"
                 multiple
-                onChange={(e) =>
-                  setMediaFiles((prev) => [
-                    ...prev,
-                    ...Array.from(e.target.files || [])
-                  ])
-                }
+                onChange={(e) => {
+                  const files = Array.from(e.target.files || []);
+
+                  if (files.length === 0) return;
+
+                  setMediaFiles((prev) => [...prev, ...files]);
+
+                  e.target.value = ""; // 🔥 MUY IMPORTANTE
+                }}
                 style={{ display: "none" }}
               />
 
@@ -1739,7 +1742,7 @@ export default function AdminDashboard() {
               {mediaFiles.length > 0 && (
                 <div className="media-preview-grid">
                   {mediaFiles.map((file, index) => (
-                    <div key={index} className="media-preview-card">
+                    <div key={file.name + index} className="media-preview-card">
                       <div className="media-preview-thumb">
                         {file.type.startsWith("video") ? (
                           <video
