@@ -49,6 +49,7 @@ function normalizeAudience(value) {
   if (v === "mujer" || v === "women") return "mujer";
   if (v === "hombre" || v === "men") return "hombre";
   if (v === "unisex") return "unisex";
+  if (v === "hogar") return "hogar";
   if (v === "otros" || v === "otro") return "otros";
   return v || "mujer";
 }
@@ -69,6 +70,7 @@ function formatAudienceLabel(value) {
   if (v === "mujer") return "Mujer";
   if (v === "hombre") return "Hombre";
   if (v === "unisex") return "Unisex";
+  if (v === "hogar") return "Hogar";
   if (v === "otros") return "Otros";
 
   return formatLabel(v);
@@ -1322,7 +1324,7 @@ export default function AdminDashboard() {
               Público: Todos
             </button>
 
-            {["mujer", "hombre", "unisex", "nino", "otros"].map((aud) => (
+            {["mujer", "hombre", "unisex", "nino", "hogar", "otros"].map((aud) => (
               <button
                 key={aud}
                 className={"admin-pill-filter " + (filterAudience === aud ? "active" : "")}
@@ -1656,6 +1658,7 @@ export default function AdminDashboard() {
                 <option value="hombre">Hombre</option>
                 <option value="unisex">Unisex</option>
                 <option value="nino">Niños</option>
+                <option value="hogar">Hogar</option>
                 <option value="otros">Otros</option>
               </select>
             </div>
