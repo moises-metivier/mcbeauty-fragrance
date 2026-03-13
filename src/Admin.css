@@ -901,3 +901,70 @@
   background: #ef4444;
   color: white;
 }
+
+/* ============================= */
+/*   FIX RESPONSIVE ADMIN MOBILE */
+/* ============================= */
+
+@media (max-width: 900px) {
+
+  .admin-layout{
+    display:flex;
+    flex-direction:column;
+  }
+
+  .admin-sidebar{
+    width:100%;
+  }
+
+  .admin-main,
+  .admin-content,
+  .admin-page-content{
+    width:100%;
+    overflow-x:auto;
+  }
+
+  .dash-table{
+    min-width:600px;
+  }
+
+}
+.dash-section{
+  overflow-x:auto;
+}
+
+.admin-products-table,
+.dash-table{
+  min-width:700px;
+}
+
+
+/* =========================
+   FIX SCROLL ADMIN MOBILE
+========================= */
+
+html, body {
+  overflow-x: auto;
+}
+
+.admin-layout {
+  min-width: 1100px;
+}
+
+.admin-main,
+.admin-content,
+.admin-page-content {
+  overflow-x: auto;
+}
+
+.dash-section {
+  overflow-x: auto;
+}
+
+.dash-table {
+  min-width: 700px;
+}
+
+.admin-products-table {
+  min-width: 700px;
+}
