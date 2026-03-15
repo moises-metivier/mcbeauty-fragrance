@@ -603,6 +603,7 @@ export default function Home() {
                     {p.audience === "hombre" && "Hombre"}
                     {p.audience === "unisex" && "Unisex"}
                     {p.audience === "nino" && "Niños"}
+                    {p.audience === "hogar" && "Hogar"}
                   </div>
                 )}
 

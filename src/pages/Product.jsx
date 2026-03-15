@@ -60,6 +60,7 @@ function getAudienceLabel(audience) {
   const a = norm(audience);
   if (a === "mujer") return "mujeres";
   if (a === "hombre") return "hombres";
+  if (a === "hogar") return "hogar";
   if (a === "unisex") return "todo público";
   if (a === "nino" || a === "niño" || a === "ninos" || a === "niños") return "niños";
   return "todo público";
@@ -379,6 +380,7 @@ export default function Product() {
                 {(audience === "mujer" && "Mujer") ||
                   (audience === "hombre" && "Hombre") ||
                   (audience === "unisex" && "Unisex") ||
+                  (audience === "hogar" && "Hogar") ||
                   ((audience === "nino" || audience === "ninos") && "Niños")}
               </div>
             )}

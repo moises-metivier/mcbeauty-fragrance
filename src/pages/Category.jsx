@@ -66,7 +66,7 @@ export default function Category() {
 }
 
     // ---- público ----
-    const audienceSlugs = ["mujer", "hombre", "unisex", "nino", "ninos", "niño", "niños"];
+    const audienceSlugs = ["mujer", "hombre", "unisex", "nino", "ninos", "niño", "niños","hogar"];
 
     if (audienceSlugs.includes(s)) {
       const aud = s === "ninos" || s === "niños" || s === "niño" ? "nino" : s;
@@ -107,6 +107,7 @@ export default function Category() {
         "nino",
         "niños",
         "niño",
+        "hogar",
       ]);
 
       let audience = null;
@@ -123,6 +124,7 @@ export default function Category() {
         crema: "crema",
         sets: "set",     // 🔥 clave
         set: "set",
+        hogar: "hogar"
       };
 
       if (TYPE_SLUG_MAP[s]) {
@@ -246,6 +248,12 @@ export default function Category() {
         description:
           "Productos y fragancias originales para niños en República Dominicana.",
       },
+
+      hogar: {
+        title: "Productos para el hogar en República Dominicana | MC Beauty & Fragrance",
+        description:
+          "Encuentra productos para el hogar en República Dominicana: decoración, velas aromáticas, fragancias para casa y accesorios para tu espacio. Compra online con pago contra entrega y atención por WhatsApp.",
+      },
     };
 
     const data = MAP[s] || {
@@ -328,6 +336,7 @@ export default function Category() {
                 {p.audience === "hombre" && "Hombre"}
                 {p.audience === "unisex" && "Unisex"}
                 {p.audience === "nino" && "Niños"}
+                {p.audience === "hogar" && "Hogar"}
               </div>
             )}
 
